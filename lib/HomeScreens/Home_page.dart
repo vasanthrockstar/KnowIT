@@ -1,3 +1,5 @@
+
+
 import'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +17,7 @@ import 'package:know_it_master/common_widgets/list_item_builder/list_items_build
 import 'package:know_it_master/common_widgets/loading_page.dart';
 import 'package:know_it_master/common_widgets/offline_widgets/offline_widget.dart';
 import 'package:know_it_master/firebase/database.dart';
+import 'package:popup_menu/popup_menu.dart';
 import 'package:provider/provider.dart';
 
 
@@ -33,6 +36,7 @@ class F_HomePage extends StatefulWidget {
 }
 
 class _F_HomePageState extends State<F_HomePage> {
+
   @override
   Widget build(BuildContext context) {
     return offlineWidget(context);
@@ -56,7 +60,7 @@ class _F_HomePageState extends State<F_HomePage> {
         stream: database.readUser(USER_ID),
         builder: (context, snapshot) {
           final user = snapshot.data;
-
+          PopupMenu.context = context;
           return Scaffold(
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(120),
@@ -205,7 +209,8 @@ showFeed(Database database) {
                                 postData.postWrongCount.toString(),
                                 postData.postImagePath,
                                 getDateTime(postUserData != null ? postData.postAddedDate.seconds : 0),
-                                postData.postType),
+                                postData.postType,
+                                context),
                           ],
                         ),
                         SizedBox(
@@ -222,6 +227,7 @@ showFeed(Database database) {
       );
     },
   );
+
 }
 
 Widget FeedCard(
@@ -234,7 +240,8 @@ Widget FeedCard(
     String wrongCount,
     String imgLink,
     String date,
-    int postType
+    int postType,
+    BuildContext context
     ) {
   return Card(
     child: Container(
@@ -284,7 +291,9 @@ Widget FeedCard(
                           color: backgroundColor,
                           size: 30,
                         ),
-                        onTap: () {}),
+                        onTap: () {
+                          showAlertDialog(context);
+                        }),
                   ],
                 ),
               ],
@@ -332,82 +341,83 @@ Widget FeedCard(
               textAlign: TextAlign.start,
             ),
           ),
+
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Column(
                   children: <Widget>[
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        SizedBox(
-                          width: 10,
+                        Icon(
+                          Icons.check,
+                          color: Colors.green,
                         ),
-                        Column(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.check,
-                                  color: Colors.greenAccent,
-                                ),
-                                Text(
-                                  "Correct",
-                                  style: TextStyle(
-                                      color: Colors.greenAccent,
-                                      fontFamily: 'Montserrat',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 15.0),
-                                ),
-                              ],
-                            ),
-                            Text(
-                              correctCount,
-                              style: TextStyle(
-                                  color: Colors.greenAccent,
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15.0),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.close,
-                                  color: Colors.redAccent,
-                                ),
-                                Text(
-                                  "Wrong",
-                                  style: TextStyle(
-                                      color: Colors.redAccent,
-                                      fontFamily: 'Montserrat',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 15.0),
-                                ),
-                              ],
-                            ),
-                            Text(
-                              wrongCount,
-                              style: TextStyle(
-                                  color: Colors.redAccent,
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15.0),
-                            ),
-                          ],
+                        SizedBox(width: 5,),
+                        Text(
+                          "Correct",
+                          style: TextStyle(
+                              color: Colors.green,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15.0),
                         ),
                       ],
-                    )
+                    ),
+                    Text(
+                      correctCount,
+                      style: TextStyle(
+                          color: Colors.green,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15.0),
+                    ),
                   ],
                 ),
+                SizedBox(
+                  width:45,
+                ),
+                Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.close,
+                          color: Colors.redAccent,
+                        ),
+                        SizedBox(width: 5,),
+                        Text(
+                          "Wrong",
+                          style: TextStyle(
+                              color: Colors.redAccent,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15.0),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      wrongCount,
+                      style: TextStyle(
+                          color: Colors.redAccent,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15.0),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+
+
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
                 Column(
                   children: <Widget>[
                     Text(
@@ -422,5 +432,68 @@ Widget FeedCard(
         ],
       ),
     ),
+  );
+
+
+}
+
+
+showAlertDialog(BuildContext context) {
+
+  // set up the list options
+  Widget optionOne = SimpleDialogOption(
+    child: const Text('horse'),
+    onPressed: () {
+      print('horse');
+      Navigator.of(context).pop();
+    },
+  );
+  Widget optionTwo = SimpleDialogOption(
+    child: const Text('cow'),
+    onPressed: () {
+      print('cow');
+      Navigator.of(context).pop();
+    },
+  );
+  Widget optionThree = SimpleDialogOption(
+    child: const Text('camel'),
+    onPressed: () {
+      print('camel');
+      Navigator.of(context).pop();
+    },
+  );
+  Widget optionFour = SimpleDialogOption(
+    child: const Text('sheep'),
+    onPressed: () {
+      print('sheep');
+      Navigator.of(context).pop();
+    },
+  );
+  Widget optionFive = SimpleDialogOption(
+    child: const Text('goat'),
+    onPressed: () {
+      print('goat');
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the SimpleDialog
+  SimpleDialog dialog = SimpleDialog(
+    title: const Text('Choose an animal'),
+    children: <Widget>[
+      optionOne,
+      optionTwo,
+      optionThree,
+      optionFour,
+      optionFive,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return dialog;
+    },
   );
 }

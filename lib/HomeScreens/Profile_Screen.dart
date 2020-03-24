@@ -74,7 +74,7 @@ class _F_ProfilePageState extends State<F_ProfilePage> {
               length: categories.length,
               child: new Scaffold(
                 appBar: PreferredSize(
-                  preferredSize: Size.fromHeight(400),
+                  preferredSize: Size.fromHeight(395),
                   //preferredSize : Size(double.infinity, 100),
                   child: CustomAppBar(
                     leftActionBar: Container(
@@ -91,7 +91,7 @@ class _F_ProfilePageState extends State<F_ProfilePage> {
                       child:IconButton(
                           icon: Icon(
                             Icons.settings,
-                            size: 40,
+                            size: 35,
                             color: backgroundColor,
                           ),
                           onPressed: () {
@@ -159,6 +159,7 @@ class _F_ProfilePageState extends State<F_ProfilePage> {
                                 color: Colors.black.withOpacity(0.5),
                               ),
                               TabBar(
+                                indicatorColor: subBackgroundColor,
                                 labelColor: backgroundColor,
                                 labelStyle: selectedLabel,
                                 unselectedLabelStyle: unselectedLabel,
