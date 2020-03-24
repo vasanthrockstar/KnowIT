@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1053757866246",
+    "firebase_url": "https://knowitmaster.firebaseio.com",
+    "project_id": "knowitmaster",
+    "storage_bucket": "knowitmaster.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1053757866246:android:1f05ebcb1815fe40455e87",
+        "android_client_info": {
+          "package_name": "com.knowit.know_it_master"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1053757866246-5fk0im5pkg7mgiuu0d4va7lpb2c5fole.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.knowit.know_it_master",
+            "certificate_hash": "f5fee4d035029e63dd033fdb8e147be38a7a2f88"
+          }
+        },
+        {
+          "client_id": "1053757866246-471rsmrd4efa32elvdl5erk6radjg9s6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTH0wyd1x-xQF-teyS-c-7N1u2oq-Cohs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1053757866246-471rsmrd4efa32elvdl5erk6radjg9s6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
