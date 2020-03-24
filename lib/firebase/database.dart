@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:know_it_master/Database_models/PostDetails.dart';
 import 'package:know_it_master/Database_models/UserDetails.dart';
 import 'package:meta/meta.dart';
 
@@ -10,6 +11,9 @@ import 'firestore_service.dart';
 abstract class Database{
 
   Stream<UserDetails> readUser(String employeeID);
+  Future<void> setPostEntry(PostDetails postEntry, String postID);
+  Stream<List<PostDetails>> readPosts();
+
 }
 
 class FirestoreDatabase implements Database {
@@ -25,4 +29,15 @@ class FirestoreDatabase implements Database {
     builder: (data, documentId) => UserDetails.fromMap(data, documentId),
   );
 
+  @override
+  Future<void> setPostEntry(PostDetails postEntry, String postID) async => await _service.setData(
+    path: APIPath.postDetails(postID),
+    data: postEntry.toMap(),
+  );
+
+  @override
+  Stream<List<PostDetails>> readPosts() => _service.collectionStream(
+    path: APIPath.readPosts(),
+    builder: (data, documentId) => PostDetails.fromMap(data, documentId),
+  );
 }

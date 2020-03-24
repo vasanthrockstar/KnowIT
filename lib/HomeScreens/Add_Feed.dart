@@ -1,38 +1,66 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:know_it_master/Database_models/PostDetails.dart';
 import 'package:know_it_master/common_variables/app_colors.dart';
 import 'package:know_it_master/common_variables/app_fonts.dart';
+import 'package:know_it_master/common_variables/app_functions.dart';
 import 'package:know_it_master/common_widgets/button_widget/add_to_cart_button.dart';
+import 'package:know_it_master/common_widgets/button_widget/to_do_button.dart';
 import 'package:know_it_master/common_widgets/custom_appbar_widget/custom_app_bar.dart';
 import 'package:know_it_master/common_widgets/offline_widgets/offline_widget.dart';
 import 'package:know_it_master/common_widgets/platform_alert/platform_exception_alert_dialog.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:know_it_master/firebase/database.dart';
 
 class AddFeed extends StatelessWidget {
-
+  AddFeed({@required this.database, @required this.phoneNumber});
+  Database database;
+  String phoneNumber;
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: F_AddFeed(
-
-      ),
+      child: F_AddFeed(database: database, phoneNumber:phoneNumber),
     );
   }
 }
 
 class F_AddFeed extends StatefulWidget {
-  F_AddFeed();
+  F_AddFeed({@required this.database, @required this.phoneNumber});
+  Database database;
+  String phoneNumber;
 
   @override
   _F_AddFeedState createState() => _F_AddFeedState();
 }
 
 class _F_AddFeedState extends State<F_AddFeed> {
-  final TextEditingController _TitleController = TextEditingController();
-  String _Title;
+
+  File _postPic;
+  String _postTitle;
+  String _postDescription;
+
   final _formKey = GlobalKey<FormState>();
 
-  String _itemUsageDescription;
+  final FirebaseStorage _storage =
+  FirebaseStorage(storageBucket: FIREBASE_STORAGE_URL);
+  StorageUploadTask _uploadTask;
+  String _profilePicPathURL;
+
+  bool _loading;
+  double _progressValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _loading = false;
+    _progressValue = 0.0;
+  }
+
 
   bool _validateAndSaveForm(){
     final form = _formKey.currentState;
@@ -43,23 +71,61 @@ class _F_AddFeedState extends State<F_AddFeed> {
     return false;
   }
 
-  Future<void> _submit() async{
-//    if(_validateAndSaveForm()) {
-//      try{
-//        final _cartEntry = Cart(itemDescription : _itemUsageDescription);
-//        final _inventryEntry = ItemInventry(itemDescription : _itemUsageDescription);
-//        widget.database.updateCartDetails(_cartEntry, widget.cartID);
-//        widget.database.updateInventryDetails(_inventryEntry, widget.cartID);
-//
-//        Navigator.of(context).pop();
-//      }on PlatformException catch (e){
-//        PlatformExceptionAlertDialog(
-//          title: 'Operation failed',
-//          exception: e,
-//        ).show(context);
-//      }
-//    }
+  void _imageUpload() async {
+    _loading = !_loading;
+    if (_postPic != null) {
+      String _postPicPath = 'post_images/${DateTime.now()}.png';
+      setState(() {
+        _uploadTask =
+            _storage.ref().child(_postPicPath).putFile(_postPic);
+      });
+      _profilePicPathURL = await (await _storage
+          .ref()
+          .child(_postPicPath)
+          .putFile(_postPic)
+          .onComplete)
+          .ref
+          .getDownloadURL();
+
+      _submit(_profilePicPathURL);
+    }
   }
+
+  Future<void> _submit(String imagePath) async{
+    if(_validateAndSaveForm()) {
+      try{
+
+        final _postEntry = PostDetails(
+          postIsDeleted: false,
+          postAddedDate: Timestamp.fromDate(DateTime.now()),
+          postAddedByUid: USER_ID,
+          postAddedByPhoneNumber: widget.phoneNumber.substring(3),
+          postImagePath: imagePath,
+          postTitle: _postTitle,
+          postDescription: _postDescription,
+          postUrl: 'not updated',
+          postReportedCount: 0,
+          postType: 0, //0 for image type, 1 for link type
+          postViewCount: 0,
+          postVisitedCount: 0,
+          postWrongCount: 0,
+          postRightCount: 0,
+          empty: null,
+        );
+
+        await widget.database.setPostEntry(_postEntry, DateTime.now().toString());
+
+        Navigator.of(context).pop();
+      }on PlatformException catch (e){
+        PlatformExceptionAlertDialog(
+          title: 'Operation failed',
+          exception: e,
+        ).show(context);
+      }
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +137,7 @@ class _F_AddFeedState extends State<F_AddFeed> {
       resizeToAvoidBottomPadding: false,
       appBar:
       PreferredSize(
-        preferredSize: Size.fromHeight(140),
+        preferredSize: Size.fromHeight(110),
         child: CustomAppBar(
           leftActionBar: Container(
             child: Icon(Icons.arrow_back, size: 40,color: Colors.black38,),
@@ -89,29 +155,7 @@ class _F_AddFeedState extends State<F_AddFeed> {
           children: <Widget>[
             _buildContent(),
             Container(
-              child:  AnimatedButton(
-                onTap: _submit,
-                animationDuration: const Duration(milliseconds: 1000),
-                initialText: "Add your Feed",
-                finalText: "Feed Added",
-                iconData: Icons.check,
-                iconSize: 30.0,
-                buttonStyle: ButtonStyle(
-                  primaryColor: backgroundColor,
-                  secondaryColor: Colors.white,
-                  elevation: 10.0,
-                  initialTextStyle: TextStyle(
-                    fontSize: 20.0,
-                    color: subBackgroundColor,
-                  ),
-                  finalTextStyle: TextStyle(
-                    fontSize: 20.0,
-                    color: backgroundColor,
-                  ),
-                  borderRadius: 10.0,
-                ),
-
-              ),
+              child: _buildPageContent(context),
             ),
           ],
         ),
@@ -132,61 +176,107 @@ class _F_AddFeedState extends State<F_AddFeed> {
       ),
     );
   }
+
   Widget _buildForm() {
     return Form(
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: _buildFormChildren(),
+        children: postContent(),
       ),
     );
   }
-  List<Widget>_buildFormChildren() {
+
+  Widget _buildPageContent(BuildContext context) {
+    if (_uploadTask != null) {
+      return StreamBuilder<StorageTaskEvent>(
+          stream: _uploadTask.events == null ? null : _uploadTask.events,
+          builder: (context, snapshot) {
+            var event = snapshot?.data?.snapshot;
+
+            _progressValue = event != null
+                ? event.bytesTransferred / event.totalByteCount
+                : 0;
+
+            return
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  LinearProgressIndicator(
+                    value: _progressValue,
+                  ),
+                  Text('${(_progressValue * 100).round()}%'),
+                ],
+              );
+          });
+    } else {
+      return ToDoButton(
+        assetName: 'images/googl-logo.png',
+        text: 'Post',
+        textColor: subBackgroundColor,
+        backgroundColor: backgroundColor,
+        onPressed: _imageUpload,
+      );
+//    AnimatedButton(
+//        onTap: _imageUpload,
+//        animationDuration: const Duration(milliseconds: 1000),
+//        initialText: "Post",
+//        finalText: "Feed Added",
+//        iconData: Icons.check,
+//        iconSize: 30.0,
+//        buttonStyle: ButtonStyle(
+//          primaryColor: backgroundColor,
+//          secondaryColor: Colors.white,
+//          elevation: 10.0,
+//          initialTextStyle: TextStyle(
+//            fontSize: 20.0,
+//            color: subBackgroundColor,
+//          ),
+//          finalTextStyle: TextStyle(
+//            fontSize: 20.0,
+//            color: backgroundColor,
+//          ),
+//          borderRadius: 10.0,
+//        ),
+//
+//      );
+    }
+  }
+
+
+  List<Widget>postContent() {
 
     return [
-      new TextFormField(
+      new TextField(
+        onChanged: (value) => _postTitle = value,
+        minLines: 2,
+        maxLines: 3,
+        autocorrect: true,
+        decoration: InputDecoration(
+          hintText: 'Add title',
+          filled: true,
+          fillColor: Colors.black12,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            borderSide: BorderSide(color: Colors.grey),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            borderSide: BorderSide(color: Colors.grey),
+          ),
+        ),
+        style: descriptionStyleDark,
         keyboardType: TextInputType.text,
-        controller: _TitleController,
-        onSaved: (value) => _Title = value,
-        onChanged: (value) {
-          setState(() {
-            _Title = value.toString();
-          });
-        } ,
-        textInputAction: TextInputAction.done,
-        obscureText: false,
-        decoration: new InputDecoration(
-          prefixIcon: Icon(
-            Icons.title,
-            color: backgroundColor,
-          ),
-          labelText: "Enter Title",
-          border: new OutlineInputBorder(
-            borderRadius: new BorderRadius.circular(15.0),
-            borderSide: new BorderSide(
-            ),
-          ),
-        ),
-
-        validator: (val) {
-          if(val.length==0) {
-            return "Title cannot be empty";
-          }else{
-            return null;
-          }
-        },
-        style: new TextStyle(
-          fontFamily: "Montserrat",
-        ),
+        keyboardAppearance: Brightness.dark,
       ),
       SizedBox(height: 20,),
       GestureDetector(
-        child: Container(
+        child: _postPic == null ? Container(
           height: 150,
           decoration: BoxDecoration(
             color: Colors.grey[100],
             border: Border.all(
-              width: 0.5, //                   <--- border width here
+              width: 0.5, //
             ),
             shape: BoxShape.rectangle,
             borderRadius: new BorderRadius.circular(10.0),
@@ -198,28 +288,37 @@ class _F_AddFeedState extends State<F_AddFeed> {
               Text("Add Image",style: subTitleStyle,),
               Icon(Icons.add_photo_alternate,size: 40,)
             ],
-
           ),
+        ) : Container(
+          height: 150,
+          decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              image: DecorationImage(
+                image: FileImage(_postPic),  // here add your image file path
+                fit: BoxFit.fill,
+              )),
         ),
-        onTap: ()=> print("select image"),
+        onTap: (){
+          _captureImage();
+        },
       ),
       SizedBox(height: 20,),
       TextField(
-        onChanged: (value) => _itemUsageDescription = value,
-        minLines: 5,
-        maxLines: 10,
+        onChanged: (value) => _postDescription = value,
+        minLines: 2,
+        maxLines: 5,
         autocorrect: true,
         decoration: InputDecoration(
-          hintText: 'Please write your description.',
+          hintText: 'Add description.',
           filled: true,
-          fillColor: Colors.grey[100],
+          fillColor: Colors.black12,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
             borderSide: BorderSide(color: Colors.grey),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            borderSide: BorderSide(color: Colors.grey[100]),
+            borderSide: BorderSide(color: Colors.grey),
           ),
         ),
         style: descriptionStyleDark,
@@ -228,6 +327,12 @@ class _F_AddFeedState extends State<F_AddFeed> {
       ),
     ];
   }
+
+  Future<void> _captureImage() async {
+    File profileImage = await ImagePicker.pickImage(source: IMAGE_SOURCE);
+    setState(() {
+      _postPic = profileImage;
+      print(_postPic);
+    });
+  }
 }
-
-

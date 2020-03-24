@@ -83,7 +83,7 @@ class CustomAppBar extends StatelessWidget {
               secondaryText == null ? Container(height: 0, width: 0,): Text(
                 secondaryText,
                 textAlign: TextAlign.center,
-                style: bigTitleStyle,
+                style: topNavigationBarTitleStyle,
               ),
             ],
 

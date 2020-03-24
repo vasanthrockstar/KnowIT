@@ -64,7 +64,7 @@ class _F_SignUpPageState extends State<F_SignUpPage> {
   var customFormat2 = DateFormat("dd MMMM yyyy");
 
   final FirebaseStorage _storage =
-      FirebaseStorage(storageBucket: 'gs://bconnect-9d1b5.appspot.com/');
+      FirebaseStorage(storageBucket: FIREBASE_STORAGE_URL);
   StorageUploadTask _uploadTask;
   String _profilePicPathURL;
 
@@ -114,7 +114,7 @@ class _F_SignUpPageState extends State<F_SignUpPage> {
   Widget offlineWidget(BuildContext context) {
     return CustomOfflineWidget(
       onlineChild: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
         child: Scaffold(
           body: SingleChildScrollView(child: _buildContent(context)),
         ),

@@ -7,6 +7,11 @@ var bigTitleStyle = TextStyle(
     fontFamily: 'Montserrat-Light',
     fontWeight: FontWeight.w300,
     fontSize: 60.0,decoration: TextDecoration.none);
+var topNavigationBarTitleStyle = TextStyle(
+    color: Color(0xFF71DB77),
+    fontFamily: 'Montserrat-Regular',
+    fontWeight: FontWeight.w400,
+    fontSize: 34.0);
 var titleStyle = TextStyle(
     color: Color(0xFF71DB77),
     fontFamily: 'Montserrat-Regular',
@@ -18,10 +23,10 @@ var subTitleStyle = TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: 18.0,decoration: TextDecoration.none);
 var descriptionStyle = TextStyle(
-    color: Color(0xFF222222),
-    fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w500,
-    fontSize: 15.0,decoration: TextDecoration.none,
+  color: Color(0xFF222222),
+  fontFamily: 'Montserrat',
+  fontWeight: FontWeight.w500,
+  fontSize: 15.0,decoration: TextDecoration.none,
   height: 1.5,);
 var subTitleStyleLight = TextStyle(
     color: Color(0xFF71DB77),

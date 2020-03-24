@@ -66,7 +66,7 @@ class _F_ProfilePageState extends State<F_ProfilePage> {
 
   Widget _buildContent(BuildContext context) {
     return StreamBuilder<UserDetails>(
-        stream: widget.database.readUser(EMPLOYEE_ID),
+        stream: widget.database.readUser(USER_ID),
         builder: (context, snapshot) {
           final user = snapshot.data;
         return new MaterialApp(
