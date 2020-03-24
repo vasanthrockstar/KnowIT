@@ -12,7 +12,7 @@ abstract class Database{
 
   Stream<UserDetails> readUser(String employeeID);
   Future<void> setPostEntry(PostDetails postEntry, String postID);
-  Stream<List<PostDetails>> readPosts();
+  Stream<List<PostDetails>> readPosts(String queryKey1, queryValue1, String queryKey2, queryValue2, bool isQuerying);
 
 }
 
@@ -36,8 +36,10 @@ class FirestoreDatabase implements Database {
   );
 
   @override
-  Stream<List<PostDetails>> readPosts() => _service.collectionStream(
+  Stream<List<PostDetails>> readPosts(String queryKey1, queryValue1, String queryKey2, queryValue2, bool isQuerying) => _service.collectionStream(
     path: APIPath.readPosts(),
     builder: (data, documentId) => PostDetails.fromMap(data, documentId),
+    queryBuilder: (query) => !isQuerying ? query.where(queryKey1, isEqualTo: queryValue1) : query.where(queryKey1, isEqualTo: queryValue1).where(queryKey2, isEqualTo: queryValue2),
+
   );
 }

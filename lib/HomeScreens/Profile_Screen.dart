@@ -186,12 +186,12 @@ class _F_ProfilePageState extends State<F_ProfilePage> {
                   if (choice.name == 'My Links') {
                     return new Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: new MyLinksPage(choice: choice),
+                      child: new MyLinksPage(choice: choice, database: widget.database,),
                     );
                   } else if (choice.name == 'My Media') {
                     return new Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: new MyMediaPage(choice: choice),
+                      child: new MyMediaPage(choice: choice, database: widget.database,),
                     );
                   }
                   else{

@@ -145,7 +145,7 @@ class _F_HomePageState extends State<F_HomePage> {
 
 showFeed(Database database) {
   return StreamBuilder<List<PostDetails>>(
-    stream: database.readPosts(),
+    stream: database.readPosts('empty',null, 'empty', null,false),
     builder: (context, postSnapshot) {
       return ListItemsBuilder<PostDetails>(
         snapshot: postSnapshot,
@@ -173,7 +173,7 @@ showFeed(Database database) {
                                 postData.postDescription,
                                 postData.postRightCount.toString(),
                                 postData.postWrongCount.toString(),
-                                "images/concert.jpg",
+                                postData.postImagePath,
                                 getDateTime(postUserData != null ? postData.postAddedDate.seconds : 0),
                                 postData.postType),
                           ],
@@ -265,10 +265,10 @@ Widget FeedCard(
             child: Container(
                 height: 200,
                 decoration: BoxDecoration(
-                    color: Colors.grey,
+                    color: Colors.grey[300],
                     borderRadius: BorderRadius.circular(10.0),
                     image: DecorationImage(
-                        image: AssetImage(imgLink), fit: BoxFit.fill))),
+                        image: NetworkImage(imgLink), fit: BoxFit.fill))),
           ),
           postType == 0 ? Padding(
             padding: const EdgeInsets.all(10.0),
