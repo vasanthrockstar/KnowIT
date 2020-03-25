@@ -94,20 +94,6 @@ class _SelectionDialogState extends State<SelectionDialogContacts> {
 
         children: e.phones.map((item) => arr.add(item.value)),
 
-//          Flexible(
-//            child: (e.avatar != null && e.avatar.length > 0)
-//                ? CircleAvatar(backgroundImage: MemoryImage(e.avatar))
-//                : CircleAvatar(child: Text(e.initials())),
-//          ),
-//          SizedBox(width: 15.0),
-//          Expanded(
-//            flex: 4,
-//            child: Text(
-//              e.displayName,
-//              overflow: TextOverflow.fade,
-//            ),
-//          ),
-//        ],
       ),
     );
   }
