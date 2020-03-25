@@ -258,6 +258,15 @@ class _F_AddLinkState extends State<F_AddLink> {
   List<Widget>postContent() {
 
     return [
+      Text('Shared URL :'),
+      SizedBox(height: 10,),
+
+      Link(
+        child: Text('https://pub.dev/packages/link',style: TextStyle(color: subBackgroundColor,decoration: TextDecoration.underline,),),
+        url: 'https://flutter.dev',
+        onError: _showErrorSnackBar,
+      ),
+      SizedBox(height: 20,),
       new TextField(
         onChanged: (value) => _postTitle = value,
         minLines: 2,
@@ -280,14 +289,7 @@ class _F_AddLinkState extends State<F_AddLink> {
         keyboardType: TextInputType.text,
         keyboardAppearance: Brightness.dark,
       ),
-      SizedBox(height: 20,),
-      Center(
-        child: Link(
-          child: Text('https://pub.dev/packages/link',style: TextStyle(color: subBackgroundColor,decoration: TextDecoration.underline,),),
-          url: 'https://flutter.dev',
-          onError: _showErrorSnackBar,
-        ),
-      ),
+
       SizedBox(height: 20,),
       TextField(
         onChanged: (value) => _postDescription = value,
