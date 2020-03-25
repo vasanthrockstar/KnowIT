@@ -77,3 +77,9 @@ var highlightDescription = TextStyle(
     fontFamily: 'Quicksand',
     fontWeight: FontWeight.w800,
     fontSize: 25.0);
+var urlTextStyle = TextStyle(
+    color: Colors.green,
+    fontFamily: 'Montserrat-Regular',
+    decoration: TextDecoration.underline,
+    fontWeight: FontWeight.w600,
+    fontSize: 15.0);

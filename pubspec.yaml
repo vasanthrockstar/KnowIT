@@ -36,6 +36,7 @@ dependencies:
   contacts_service: ^0.3.10
   image_picker: ^0.6.3+4
   popup_menu: ^1.0.5
+  platform_action_sheet: ^0.0.3
 
 dev_dependencies:
   flutter_test:

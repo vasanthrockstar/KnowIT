@@ -17,6 +17,7 @@ import 'package:know_it_master/common_widgets/platform_alert/platform_exception_
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:know_it_master/firebase/database.dart';
+import 'package:platform_action_sheet/platform_action_sheet.dart';
 
 class AddFeed extends StatelessWidget {
   AddFeed({@required this.database, @required this.phoneNumber, @required this.totalMediaCount});
@@ -26,7 +27,7 @@ class AddFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: F_AddFeed(database: database, phoneNumber:phoneNumber),
+      child: F_AddFeed(database: database, phoneNumber:phoneNumber, totalMediaCount: totalMediaCount,),
     );
   }
 }
@@ -104,8 +105,8 @@ class _F_AddFeedState extends State<F_AddFeed> {
           postAddedByUid: USER_ID,
           postAddedByPhoneNumber: widget.phoneNumber.substring(3),
           postImagePath: imagePath,
-          postTitle: _postTitle,
-          postDescription: _postDescription,
+          postTitle: _postTitle == null ? 'not updated' : _postTitle,
+          postDescription: _postDescription == null ? 'not updated' : _postDescription,
           postUrl: 'not updated',
           postType: 0, //0 for image type, 1 for link type
           postViewCount: 0,
@@ -118,10 +119,9 @@ class _F_AddFeedState extends State<F_AddFeed> {
         );
 
         await widget.database.setPostEntry(_postEntry, DateTime.now().toString());
-
         final _userDetails = UserDetails(
             totalMedia: widget.totalMediaCount + 1);
-        await widget.database.updateUserDetails(_userDetails, DateTime.now().toString());
+        await widget.database.updateUserDetails(_userDetails, USER_ID);
 
         Navigator.of(context).pop();
       }on PlatformException catch (e){
@@ -301,13 +301,48 @@ class _F_AddFeedState extends State<F_AddFeed> {
           height: 150,
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(5.0),
               image: DecorationImage(
                 image: FileImage(_postPic),  // here add your image file path
                 fit: BoxFit.fill,
               )),
         ),
         onTap: (){
-          _captureImage();
+
+          PlatformActionSheet().displaySheet(
+              context: context,
+              title:
+              Text('Please select the media source.',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontFamily: 'Montserrat-Regular',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 17.0,
+                ),
+              ),
+              actions: [
+              ActionSheetAction(
+                  text: "Camera",
+                  onPressed: () {
+                    _captureImage(ImageSource.camera);
+                    Navigator.pop(context);
+                  },
+                  hasArrow: true,
+                ),
+                ActionSheetAction(
+                  text: "Gallery",
+                  onPressed: () {
+                    _captureImage(ImageSource.gallery);
+                    Navigator.pop(context);
+                  },
+                ),
+                ActionSheetAction(
+                  text: "Cancel",
+                  onPressed: () => Navigator.pop(context),
+                  isCancel: true,
+                  defaultAction: true,
+                )
+              ]);
         },
       ),
       SizedBox(height: 20,),
@@ -336,8 +371,8 @@ class _F_AddFeedState extends State<F_AddFeed> {
     ];
   }
 
-  Future<void> _captureImage() async {
-    File profileImage = await ImagePicker.pickImage(source: IMAGE_SOURCE);
+  Future<void> _captureImage(ImageSource imageSource) async {
+    File profileImage = await ImagePicker.pickImage(source: imageSource);
     setState(() {
       _postPic = profileImage;
       print(_postPic);

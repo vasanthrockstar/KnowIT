@@ -17,6 +17,8 @@ import 'package:know_it_master/common_widgets/offline_widgets/offline_widget.dar
 import 'package:know_it_master/firebase/database.dart';
 import 'package:popup_menu/popup_menu.dart';
 import 'package:provider/provider.dart';
+import 'package:platform_action_sheet/platform_action_sheet.dart';
+
 
 class HomePage extends StatelessWidget {
   @override
@@ -92,7 +94,7 @@ class _F_HomePageState extends State<F_HomePage> {
                                   const EdgeInsets.only(bottom: 20, right: 10),
                               child: CircleAvatar(
                                 child: Text(
-                                  user != null ? user.username[0] : '',
+                                  user != null ? user.username[0] : '...',
                                   style: subTitleStyleLight,
                                 ),
                                 radius: 25.0,
@@ -120,7 +122,7 @@ class _F_HomePageState extends State<F_HomePage> {
                                   const EdgeInsets.only(bottom: 20, right: 10),
                               child: CircleAvatar(
                                 child: Text(
-                                  user != null ? user.username[0] : '',
+                                  user != null ? user.username[0] : '...',
                                   style: subTitleStyleLight,
                                 ),
                                 radius: 25.0,
@@ -233,7 +235,7 @@ Widget FeedCard(PostDetails postData, UserDetails postUserData,
                           children: <Widget>[
                             CircleAvatar(
                               child: Text(
-                                postUserData.username[0],
+                                postUserData != null ? postUserData.username[0] : '...',
                                 style: subTitleStyleLight,
                               ),
                               radius: 25.0,
@@ -247,7 +249,7 @@ Widget FeedCard(PostDetails postData, UserDetails postUserData,
                         Column(
                           children: <Widget>[
                             Text(
-                              postUserData.username,
+                              postUserData != null ? postUserData.username : '...',
                               style: subTitleStyle,
                             )
                           ],
@@ -265,7 +267,58 @@ Widget FeedCard(PostDetails postData, UserDetails postUserData,
                           size: 30,
                         ),
                         onTap: () {
-                          showAlertDialog(context);
+
+                          PlatformActionSheet().displaySheet(
+                              context: context,
+                              title: (postData.postAddedByUid != USER_ID) ?
+                              Text('Once the post is reported it cant be reverted.',
+                                style: TextStyle(
+                                  color: Colors.redAccent,
+                                  fontFamily: 'Montserrat-Regular',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 17.0,
+                                ),
+                              )
+                                  :
+                              Text('Once the post is deleted it cant be retrived.',
+                                style: TextStyle(
+                                  color: Colors.redAccent,
+                                  fontFamily: 'Montserrat-Regular',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 17.0,
+                                ),
+                              ),
+                              actions: [
+                                if (postData.postAddedByUid != USER_ID) ActionSheetAction(
+                                  text: "Report",
+                                  onPressed: () {
+                                    final reported = postData != null ? postData.reported : [];
+                                    reported.add(USER_ID);
+                                    final postEntry = PostDetails(
+                                        reported: reported);
+                                    database.updatePostEntry(postEntry, postData != null ? postData.postID : 'fetching...');
+
+                                    Navigator.pop(context);
+                                  },
+                                  hasArrow: true,
+                                ),
+                                if (postData.postAddedByUid == USER_ID)  ActionSheetAction(
+                                  text: "Delete",
+                                  onPressed: () {
+                                    final postEntry = PostDetails(
+                                        postIsDeleted: true);
+                                    database.updatePostEntry(postEntry, postData != null ? postData.postID : 'fetching...');
+
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                ActionSheetAction(
+                                  text: "Cancel",
+                                  onPressed: () => Navigator.pop(context),
+                                  isCancel: true,
+                                  defaultAction: true,
+                                )
+                              ]);
                         }),
                   ],
                 ),
@@ -274,47 +327,36 @@ Widget FeedCard(PostDetails postData, UserDetails postUserData,
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Container(
+            child: postData.postType == 0 ? Container(
                 height: 200,
                 decoration: BoxDecoration(
                     color: Colors.grey[300],
                     borderRadius: BorderRadius.circular(10.0),
                     image: DecorationImage(
                         image: NetworkImage(postData.postImagePath),
-                        fit: BoxFit.fill))),
+                        fit: BoxFit.fill))) : Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: InkWell(
+                  child: Text(
+                    postData.postUrl,
+                    style: urlTextStyle,
+                  ),
+                  onTap: () {}),
+            ),
           ),
-          postData.postType == 0
-              ? Padding(
+          Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
-                    postData.postTitle,
+                    postData != null ? postData.postTitle == 'not updated' ? '' : postData.postTitle : 'fetching...',
                     style: subTitleStyle,
                     textAlign: TextAlign.start,
                   ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: InkWell(
-                      child: Text(
-                        postData.postUrl,
-                        style: descriptionStyleDarkBlur,
-                      ),
-                      onTap: () {}),
                 ),
-          postData.postType == 0
-              ? Padding(
+          Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
-                    postData.postDescription,
+                    postData != null ? postData.postDescription == 'not updated' ? '' : postData.postDescription : 'fetching...',
                     style: descriptionStyleDarkBlur,
-                    textAlign: TextAlign.start,
-                  ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    postData.postTitle,
-                    style: subTitleStyle,
                     textAlign: TextAlign.start,
                   ),
                 ),
@@ -346,9 +388,9 @@ Widget FeedCard(PostDetails postData, UserDetails postUserData,
                         ],
                       ),
                       Text(
-                        postData.reactedCorrect.length.toString(),
+                        postData != null ? postData.reactedCorrect.length.toString() : '--',
                         style: TextStyle(
-                            color: Colors.green,
+                            color: postData.reactedCorrect.contains(USER_ID) ? Colors.green : Colors.black,
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.w500,
                             fontSize: 15.0),
@@ -357,9 +399,9 @@ Widget FeedCard(PostDetails postData, UserDetails postUserData,
                   ),
                   onTap: () {
 
-                    final reactedCorrect = postData.reactedCorrect;
-                    final reactedWrong = postData.reactedWrong;
-                    final reactedUIDs = postData.reactedIDs;
+                    final reactedCorrect = postData != null ? postData.reactedCorrect : [];
+                    final reactedWrong = postData != null ? postData.reactedWrong : [];
+                    final reactedUIDs = postData != null ? postData.reactedIDs : [];
 
                     if(postData.reactedIDs.contains(USER_ID)){
 
@@ -371,7 +413,7 @@ Widget FeedCard(PostDetails postData, UserDetails postUserData,
                             reactedCorrect: reactedCorrect,
                             reactedIDs: reactedUIDs);
 
-                        database.updatePostEntry(postEntry, postData.postID);
+                        database.updatePostEntry(postEntry, postData != null ? postData.postID : 'fetching...');
 
                         final _userDetails = UserDetails(
                             totalReactions: postUserData.totalReactions - 1);
@@ -386,7 +428,7 @@ Widget FeedCard(PostDetails postData, UserDetails postUserData,
                             reactedIDs: reactedUIDs,
                             reactedWrong: reactedWrong);
 
-                        database.updatePostEntry(postEntry, postData.postID);
+                        database.updatePostEntry(postEntry, postData != null ? postData.postID : 'fetching...');
 
                       }
                     }else{
@@ -396,7 +438,7 @@ Widget FeedCard(PostDetails postData, UserDetails postUserData,
                       final postEntry = PostDetails(
                           reactedCorrect: reactedCorrect,
                           reactedIDs: reactedUIDs);
-                      database.updatePostEntry(postEntry, postData.postID);
+                      database.updatePostEntry(postEntry, postData != null ? postData.postID :'fetching...');
 
 
                       final _userDetails = UserDetails(
@@ -431,9 +473,9 @@ Widget FeedCard(PostDetails postData, UserDetails postUserData,
                           ],
                         ),
                         Text(
-                          postData.reactedWrong.length.toString(),
+                          postData != null ? postData.reactedWrong.length.toString() : '0',
                           style: TextStyle(
-                              color: Colors.redAccent,
+                              color: postData.reactedWrong.contains(USER_ID) ? Colors.red : Colors.black,
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w500,
                               fontSize: 15.0),
@@ -442,9 +484,9 @@ Widget FeedCard(PostDetails postData, UserDetails postUserData,
                     ),
                     onTap: () {
 
-                      final reactedCorrect = postData.reactedCorrect;
-                      final reactedWrong = postData.reactedWrong;
-                      final reactedUIDs = postData.reactedIDs;
+                      final reactedCorrect = postData != null ? postData.reactedCorrect : [];
+                      final reactedWrong = postData != null ? postData.reactedWrong : [];
+                      final reactedUIDs = postData != null ? postData.reactedIDs : [];
 
 
                       if(postData.reactedIDs.contains(USER_ID)){
@@ -458,7 +500,7 @@ Widget FeedCard(PostDetails postData, UserDetails postUserData,
                               reactedIDs: reactedUIDs,
                           reactedWrong: reactedWrong);
 
-                          database.updatePostEntry(postEntry, postData.postID);
+                          database.updatePostEntry(postEntry, postData != null ? postData.postID : 'fetching...');
                         }else if(postData.reactedWrong.contains(USER_ID)){
 
                           reactedWrong.remove(USER_ID);
@@ -468,7 +510,7 @@ Widget FeedCard(PostDetails postData, UserDetails postUserData,
                               reactedIDs: reactedUIDs,
                               reactedWrong: reactedWrong);
 
-                          database.updatePostEntry(postEntry, postData.postID);
+                          database.updatePostEntry(postEntry, postData != null ? postData.postID : 'fetching...');
 
                           final _userDetails = UserDetails(
                               totalReactions: postUserData.totalReactions - 1);
@@ -483,7 +525,7 @@ Widget FeedCard(PostDetails postData, UserDetails postUserData,
                             reactedWrong: reactedWrong,
                             reactedIDs: reactedUIDs);
 
-                        database.updatePostEntry(postEntry, postData.postID);
+                        database.updatePostEntry(postEntry, postData != null ? postData.postID : 'fetching...');
 
                         final _userDetails = UserDetails(
                             totalReactions: postUserData.totalReactions + 1);
@@ -502,7 +544,7 @@ Widget FeedCard(PostDetails postData, UserDetails postUserData,
                 Column(
                   children: <Widget>[
                     Text(
-                      getDateTime(postData.postAddedDate.seconds),
+                      getDateTime(postData != null ? postData.postAddedDate.seconds : 0),
                       style: descriptionStyleDarkBlur,
                     ),
                   ],

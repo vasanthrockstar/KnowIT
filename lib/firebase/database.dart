@@ -30,6 +30,7 @@ class FirestoreDatabase implements Database {
   Stream<UserDetails> readUser(String employeeID) => _service.documentStream(
     path: APIPath.userDetails(employeeID),
     builder: (data, documentId) => UserDetails.fromMap(data, documentId),
+
   );
 
   @override
@@ -43,7 +44,7 @@ class FirestoreDatabase implements Database {
     type: 0,
     path: APIPath.readPosts(),
     builder: (data, documentId) => PostDetails.fromMap(data, documentId),
-    queryBuilder: (query) => !isQuerying ? query.where(queryKey1, isEqualTo: queryValue1) : query.where(queryKey1, isEqualTo: queryValue1).where(queryKey2, isEqualTo: queryValue2),
+    queryBuilder: (query) => !isQuerying ? query.where(queryKey1, isEqualTo: queryValue1).where('post_is_deleted', isEqualTo: false) : query.where(queryKey1, isEqualTo: queryValue1).where(queryKey2, isEqualTo: queryValue2).where('post_is_deleted', isEqualTo: false),
   );
 
   @override
@@ -63,7 +64,7 @@ class FirestoreDatabase implements Database {
       type: 0,
       path: APIPath.readPosts(),
     builder: (data, documentId) => PostDetails.fromMap(data, documentId),
-    queryBuilder: (query) => query.where(queryKey1, arrayContains: queryValue1),
+    queryBuilder: (query) => query.where(queryKey1, arrayContains: queryValue1).where('post_is_deleted', isEqualTo: false) ,
   );
 
 }

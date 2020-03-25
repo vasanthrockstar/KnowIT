@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:know_it_master/AuthenticationScreens/phone_number_page.dart';
 import 'package:provider/provider.dart';
 import 'AuthenticationScreens/login_page.dart';
-import 'AuthenticationScreens/onboarding_screen.dart';
 import 'HomeScreens/Home_page.dart';
 import 'common_variables/app_functions.dart';
 import 'firebase/auth.dart';

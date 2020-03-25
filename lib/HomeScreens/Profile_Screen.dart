@@ -75,8 +75,10 @@ class _F_ProfilePageState extends State<F_ProfilePage> {
               child: new Scaffold(
                 appBar: PreferredSize(
                   preferredSize: Size.fromHeight(395),
+
                   //preferredSize : Size(double.infinity, 100),
                   child: CustomAppBar(
+
                     leftActionBar: Container(
                       child: Icon(
                         Icons.arrow_back,
@@ -141,16 +143,16 @@ class _F_ProfilePageState extends State<F_ProfilePage> {
                                   Column(
                                     children: <Widget>[
                                       Text("Links",style: descriptionStyleDark),
-                                      Text(user.totalLinks.toString(),style: subTitleStyleLight,)
+                                      Text(user != null ? user.totalLinks.toString() : "-",style: subTitleStyleLight,)
                                     ],
                                   ),
                                   Column(children: <Widget>[
                                     Text("Media",style: descriptionStyleDark),
-                                    Text(user.totalMedia.toString(),style: subTitleStyleLight,)
+                                    Text(user != null ? user.totalMedia.toString() : '-',style: subTitleStyleLight,)
                                   ],),
                                   Column(children: <Widget>[
                                     Text("Reacted",style: descriptionStyleDark),
-                                    Text(user.totalReactions.toString(),style: subTitleStyleLight,)
+                                    Text(user != null ? user.totalReactions.toString() : '-',style: subTitleStyleLight,)
                                   ],),
                                   SizedBox(width: 10,),
                                 ],
