@@ -22,6 +22,11 @@ var subTitleStyle = TextStyle(
     fontFamily: 'Montserrat',
     fontWeight: FontWeight.w600,
     fontSize: 18.0,decoration: TextDecoration.none);
+var subTitleStyleLite = TextStyle(
+    color: Colors.white,
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.w600,
+    fontSize: 18.0,decoration: TextDecoration.none);
 var descriptionStyle = TextStyle(
   color: Color(0xFF222222),
   fontFamily: 'Montserrat',
@@ -46,7 +51,11 @@ var statusTracker = TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 12.0);
 
-
+var descriptionStyleLite = TextStyle(
+    color: Colors.white70,
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.w500,
+    fontSize: 16.0);
 var descriptionStyleDark = TextStyle(
     color: Color(0xFF222222),
     fontFamily: 'Montserrat',
@@ -64,6 +73,11 @@ var titleStylelight = TextStyle(
     fontSize: 28.0);
 var descriptionStyleDarkBlur = TextStyle(
     color: Colors.black.withOpacity(.5),
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.w800,
+    fontSize: 15.0);
+var descriptionStyleLiteBlur = TextStyle(
+    color: Colors.white.withOpacity(.5),
     fontFamily: 'Montserrat',
     fontWeight: FontWeight.w800,
     fontSize: 15.0);

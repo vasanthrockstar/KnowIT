@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:know_it_master/common_variables/app_colors.dart';
 import 'package:know_it_master/common_variables/app_fonts.dart';
 
 
@@ -14,6 +15,7 @@ class CustomAppBar extends StatelessWidget {
       this.rightAction,
         this.tabBarWidget,
         this.profile,
+        this.color,
 });
 
   final Widget leftActionBar;
@@ -24,12 +26,13 @@ class CustomAppBar extends StatelessWidget {
   final VoidCallback rightAction;
   final Widget tabBarWidget;
   final Widget profile;
+  final Widget color;
 
   @override
   Widget build(BuildContext context) {
   return Container(
     decoration: BoxDecoration(
-      color: Colors.grey[100],
+      color: backgroundColor,
     ),
     width: MediaQuery.of(context).size.width,
     child: Column(

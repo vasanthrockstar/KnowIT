@@ -145,10 +145,10 @@ class _F_AddFeedState extends State<F_AddFeed> {
       resizeToAvoidBottomPadding: false,
       appBar:
       PreferredSize(
-        preferredSize: Size.fromHeight(110),
+        preferredSize: Size.fromHeight(100),
         child: CustomAppBar(
           leftActionBar: Container(
-            child: Icon(Icons.arrow_back, size: 40,color: Colors.black38,),
+            child: Icon(Icons.arrow_back, size: 40,color: Colors.white70,),
           ),
           leftAction: (){
             Navigator.pop(context,true);

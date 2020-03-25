@@ -63,7 +63,7 @@ class _F_HomePageState extends State<F_HomePage> {
           PopupMenu.context = context;
           return Scaffold(
             appBar: PreferredSize(
-              preferredSize: Size.fromHeight(120),
+              preferredSize: Size.fromHeight(100),
               child: Container(
                 color: Color(0xFF222222),
                 height: MediaQuery.of(context).size.height / 5,
@@ -249,6 +249,7 @@ showFeed(Database database) {
 Widget FeedCard(PostDetails postData, UserDetails postUserData,
     BuildContext context, Database database) {
   return Card(
+    elevation: 10,
     child: Container(
       child: Column(
         children: <Widget>[

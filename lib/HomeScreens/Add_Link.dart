@@ -141,31 +141,33 @@ class _F_AddLinkState extends State<F_AddLink> {
   }
 
   Widget offlineWidget(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      appBar:
-      PreferredSize(
-        preferredSize: Size.fromHeight(110),
-        child: CustomAppBar(
-          leftActionBar: Container(
-            child: Icon(Icons.arrow_back, size: 40,color: Colors.black38,),
-          ),
-          leftAction: (){
-            Navigator.pop(context,true);
-          },
-          primaryText: null,
-          secondaryText: 'Add Feed',
-          tabBarWidget: null,
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            _buildContent(),
-            Container(
-              child: _buildPageContent(context),
+    return SingleChildScrollView(
+      child: Scaffold(
+        resizeToAvoidBottomPadding: false,
+        appBar:
+        PreferredSize(
+          preferredSize: Size.fromHeight(110),
+          child: CustomAppBar(
+            leftActionBar: Container(
+              child: Icon(Icons.arrow_back, size: 40,color: Colors.white70,),
             ),
-          ],
+            leftAction: (){
+              Navigator.pop(context,true);
+            },
+            primaryText: null,
+            secondaryText: 'Add Feed',
+            tabBarWidget: null,
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              _buildContent(),
+              Container(
+                child: _buildPageContent(context),
+              ),
+            ],
+          ),
         ),
       ),
     );

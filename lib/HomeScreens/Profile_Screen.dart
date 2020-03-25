@@ -83,7 +83,7 @@ class _F_ProfilePageState extends State<F_ProfilePage> {
                       child: Icon(
                         Icons.arrow_back,
                         size: 40,
-                        color: Colors.black38,
+                        color: Colors.white70,
                       ),
                     ),
                     leftAction: () {
@@ -94,7 +94,7 @@ class _F_ProfilePageState extends State<F_ProfilePage> {
                           icon: Icon(
                             Icons.settings,
                             size: 35,
-                            color: backgroundColor,
+                            color: Colors.white70,
                           ),
                           onPressed: () {
                             Navigator.push(
@@ -129,12 +129,12 @@ class _F_ProfilePageState extends State<F_ProfilePage> {
                               ),
 
                               SizedBox(height: 10,),
-                              Text(user != null ? user.phoneNumber : 'loading...',style: descriptionStyleDarkBlur,),
+                              Text(user != null ? user.phoneNumber : 'loading...',style: descriptionStyleLiteBlur,),
                               SizedBox(height: 10,),
-                              Text(user != null ? user.username : 'loading...',style: subTitleStyle,),
+                              Text(user != null ? user.username : 'loading...',style: subTitleStyleLite,),
                               SizedBox(height: 10,),
                               Divider(
-                                color: Colors.black.withOpacity(0.5),
+                                color: Colors.white.withOpacity(0.9),
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -142,27 +142,27 @@ class _F_ProfilePageState extends State<F_ProfilePage> {
                                   SizedBox(width: 10,),
                                   Column(
                                     children: <Widget>[
-                                      Text("Links",style: descriptionStyleDark),
+                                      Text("Links",style: descriptionStyleLite),
                                       Text(user != null ? user.totalLinks.toString() : "-",style: subTitleStyleLight,)
                                     ],
                                   ),
                                   Column(children: <Widget>[
-                                    Text("Media",style: descriptionStyleDark),
+                                    Text("Media",style: descriptionStyleLite),
                                     Text(user != null ? user.totalMedia.toString() : '-',style: subTitleStyleLight,)
                                   ],),
                                   Column(children: <Widget>[
-                                    Text("Reacted",style: descriptionStyleDark),
+                                    Text("Reacted",style: descriptionStyleLite),
                                     Text(user != null ? user.totalReactions.toString() : '-',style: subTitleStyleLight,)
                                   ],),
                                   SizedBox(width: 10,),
                                 ],
                               ),
                               Divider(
-                                color: Colors.black.withOpacity(0.5),
+                                color: Colors.white.withOpacity(0.9),
                               ),
                               TabBar(
                                 indicatorColor: subBackgroundColor,
-                                labelColor: backgroundColor,
+                                labelColor: Colors.white,
                                 labelStyle: selectedLabel,
                                 unselectedLabelStyle: unselectedLabel,
                                 isScrollable: true,
