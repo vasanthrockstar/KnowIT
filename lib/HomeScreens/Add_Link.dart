@@ -264,7 +264,7 @@ class _F_AddLinkState extends State<F_AddLink> {
       SizedBox(height: 10,),
 
       Link(
-        child: Text('https://pub.dev/packages/link',style: TextStyle(color: subBackgroundColor,decoration: TextDecoration.underline,),),
+        child: Text('https://pub.dev/packages/link',style: urlTextStyle,),
         url: 'https://flutter.dev',
         onError: _showErrorSnackBar,
       ),
