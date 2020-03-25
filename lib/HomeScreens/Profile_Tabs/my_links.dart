@@ -14,6 +14,7 @@ import 'package:know_it_master/common_widgets/list_item_builder/list_items_build
 import 'package:know_it_master/common_widgets/loading_page.dart';
 import 'package:know_it_master/common_widgets/offline_widgets/offline_widget.dart';
 import 'package:know_it_master/firebase/database.dart';
+import 'package:link/link.dart';
 import 'package:platform_action_sheet/platform_action_sheet.dart';
 import 'package:provider/provider.dart';
 
@@ -217,12 +218,11 @@ class _F_MyLinksPageState extends State<F_MyLinksPage> {
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: InkWell(
-                  child: Text(
-                    postData.postUrl,
-                    style: urlTextStyle,
-                  ),
-                  onTap: () {}),
+              child: Link(
+                child: Text(postData.postUrl,style: urlTextStyle,),
+                url: postData.postUrl,
+                onError: _showErrorSnackBar,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
@@ -433,6 +433,13 @@ class _F_MyLinksPageState extends State<F_MyLinksPage> {
             )
           ],
         ),
+      ),
+    );
+  }
+  void _showErrorSnackBar() {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Oops... the URL couldn\'t be opened!'),
       ),
     );
   }

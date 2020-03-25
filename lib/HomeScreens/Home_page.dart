@@ -15,6 +15,7 @@ import 'package:know_it_master/common_widgets/list_item_builder/list_items_build
 import 'package:know_it_master/common_widgets/loading_page.dart';
 import 'package:know_it_master/common_widgets/offline_widgets/offline_widget.dart';
 import 'package:know_it_master/firebase/database.dart';
+import 'package:link/link.dart';
 import 'package:popup_menu/popup_menu.dart';
 import 'package:provider/provider.dart';
 import 'package:platform_action_sheet/platform_action_sheet.dart';
@@ -39,35 +40,41 @@ class F_HomePage extends StatefulWidget {
 class _F_HomePageState extends State<F_HomePage> {
   @override
   Widget build(BuildContext context) {
-    return offlineWidget(context);
+    return offlineWidget( context );
   }
 
   Widget offlineWidget(BuildContext context) {
     return CustomOfflineWidget(
       onlineChild: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+        padding: const EdgeInsets.fromLTRB( 0, 0, 0, 0 ),
         child: Scaffold(
-          body: _buildContent(context),
+          body: _buildContent( context ),
         ),
       ),
     );
   }
 
   Widget _buildContent(BuildContext context) {
-    final database = Provider.of<Database>(context, listen: false);
+    final database = Provider.of<Database>( context, listen: false );
 
     return StreamBuilder<UserDetails>(
-        stream: database.readUser(USER_ID),
+        stream: database.readUser( USER_ID ),
         builder: (context, snapshot) {
           final user = snapshot.data;
           PopupMenu.context = context;
           return Scaffold(
             appBar: PreferredSize(
-              preferredSize: Size.fromHeight(100),
+              preferredSize: Size.fromHeight( 100 ),
               child: Container(
-                color: Color(0xFF222222),
-                height: MediaQuery.of(context).size.height / 5,
-                width: MediaQuery.of(context).size.width,
+                color: Color( 0xFF222222 ),
+                height: MediaQuery
+                    .of( context )
+                    .size
+                    .height / 5,
+                width: MediaQuery
+                    .of( context )
+                    .size
+                    .width,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -76,13 +83,13 @@ class _F_HomePageState extends State<F_HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(children: <Widget>[
+                          padding: const EdgeInsets.all( 10.0 ),
+                          child: Column( children: <Widget>[
                             Text(
                               "Know It..!",
                               style: topNavigationBarTitleStyle,
                             ),
-                          ]),
+                          ] ),
                         ),
                       ],
                     ),
@@ -93,7 +100,7 @@ class _F_HomePageState extends State<F_HomePage> {
                           children: <Widget>[
                             Padding(
                               padding:
-                              const EdgeInsets.only(bottom: 20, right: 10),
+                              const EdgeInsets.only( bottom: 20, right: 10 ),
                               child: CircleAvatar(
                                 child: Text(
                                   'Lin',
@@ -101,7 +108,7 @@ class _F_HomePageState extends State<F_HomePage> {
                                 ),
                                 radius: 25.0,
                                 backgroundColor:
-                                subBackgroundColor.withOpacity(.3),
+                                subBackgroundColor.withOpacity( .3 ),
                               ),
                             )
                           ],
@@ -110,10 +117,10 @@ class _F_HomePageState extends State<F_HomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AddLink(),
+                              builder: (context) => AddLink( ),
                             ),
                           );
-                        }),
+                        } ),
                     GestureDetector(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -121,7 +128,7 @@ class _F_HomePageState extends State<F_HomePage> {
                           children: <Widget>[
                             Padding(
                               padding:
-                                  const EdgeInsets.only(bottom: 20, right: 10),
+                              const EdgeInsets.only( bottom: 20, right: 10 ),
                               child: CircleAvatar(
                                 child: Text(
                                   user != null ? user.username[0] : '...',
@@ -129,7 +136,7 @@ class _F_HomePageState extends State<F_HomePage> {
                                 ),
                                 radius: 25.0,
                                 backgroundColor:
-                                    subBackgroundColor.withOpacity(.3),
+                                subBackgroundColor.withOpacity( .3 ),
                               ),
                             )
                           ],
@@ -138,10 +145,10 @@ class _F_HomePageState extends State<F_HomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MyStatefulWidget(),
+                              builder: (context) => MyStatefulWidget( ),
                             ),
                           );
-                        }),
+                        } ),
                     GestureDetector(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -149,7 +156,7 @@ class _F_HomePageState extends State<F_HomePage> {
                           children: <Widget>[
                             Padding(
                               padding:
-                                  const EdgeInsets.only(bottom: 20, right: 10),
+                              const EdgeInsets.only( bottom: 20, right: 10 ),
                               child: CircleAvatar(
                                 child: Text(
                                   user != null ? user.username[0] : '...',
@@ -157,7 +164,7 @@ class _F_HomePageState extends State<F_HomePage> {
                                 ),
                                 radius: 25.0,
                                 backgroundColor:
-                                    subBackgroundColor.withOpacity(.3),
+                                subBackgroundColor.withOpacity( .3 ),
                               ),
                             )
                           ],
@@ -167,15 +174,15 @@ class _F_HomePageState extends State<F_HomePage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  ProfilePage(database: database),
+                                  ProfilePage( database: database ),
                             ),
                           );
-                        })
+                        } )
                   ],
                 ),
               ),
             ),
-            body: showFeed(database),
+            body: showFeed( database ),
             floatingActionButton: FloatingActionButton(
               elevation: 90,
               backgroundColor: backgroundColor,
@@ -184,11 +191,12 @@ class _F_HomePageState extends State<F_HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AddFeed(
-                      database: database,
-                      phoneNumber: user.phoneNumber,
-                      totalMediaCount: user.totalMedia,
-                    ),
+                    builder: (context) =>
+                        AddFeed(
+                          database: database,
+                          phoneNumber: user.phoneNumber,
+                          totalMediaCount: user.totalMedia,
+                        ),
                   ),
                 );
               },
@@ -199,451 +207,504 @@ class _F_HomePageState extends State<F_HomePage> {
               tooltip: 'Add Company',
             ),
             floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
+            FloatingActionButtonLocation.centerFloat,
           );
-        });
+        } );
   }
-}
 
-showFeed(Database database) {
-  return StreamBuilder<List<PostDetails>>(
-    stream: database.readPosts('empty', null, 'empty', null, false),
-    builder: (context, postSnapshot) {
-      return ListItemsBuilder<PostDetails>(
-        snapshot: postSnapshot,
-        itemBuilder: (context, postData) => StreamBuilder<UserDetails>(
-          stream: database.readUser(postData.postAddedByUid),
-          builder: (context, snapshot) {
-            final postUserData = snapshot.data;
 
-            return Column(
-              children: <Widget>[
-                Container(
-                  color: Colors.white,
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.all(10.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            FeedCard(postData, postUserData, context, database),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
-      );
-    },
-  );
-}
+  showFeed(Database database) {
+    return StreamBuilder<List<PostDetails>>(
+      stream: database.readPosts( 'empty', null, 'empty', null, false ),
+      builder: (context, postSnapshot) {
+        return ListItemsBuilder<PostDetails>(
+          snapshot: postSnapshot,
+          itemBuilder: (context, postData) =>
+              StreamBuilder<UserDetails>(
+                stream: database.readUser( postData.postAddedByUid ),
+                builder: (context, snapshot) {
+                  final postUserData = snapshot.data;
 
-Widget FeedCard(PostDetails postData, UserDetails postUserData,
-    BuildContext context, Database database) {
-  return Card(
-    elevation: 10,
-    child: Container(
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            CircleAvatar(
-                              child: Text(
-                                postUserData != null ? postUserData.username[0] : '...',
-                                style: subTitleStyleLight,
+                  return Column(
+                    children: <Widget>[
+                      Container(
+                        color: Colors.white,
+                        child: SingleChildScrollView(
+                          padding: EdgeInsets.all( 10.0 ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Column(
+                                children: <Widget>[
+                                  FeedCard( postData, postUserData, context,
+                                      database ),
+                                ],
                               ),
-                              radius: 25.0,
-                              backgroundColor: backgroundColor.withOpacity(.9),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Text(
-                              postUserData != null ? postUserData.username : '...',
-                              style: subTitleStyle,
-                            )
-                          ],
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    InkWell(
-                        child: Icon(
-                          Icons.more_horiz,
-                          color: backgroundColor,
-                          size: 30,
-                        ),
-                        onTap: () {
-
-                          PlatformActionSheet().displaySheet(
-                              context: context,
-                              title: (postData.postAddedByUid != USER_ID) ?
-                              Text('Once the post is reported it cant be reverted.',
-                                style: TextStyle(
-                                  color: Colors.redAccent,
-                                  fontFamily: 'Montserrat-Regular',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 17.0,
-                                ),
-                              )
-                                  :
-                              Text('Once the post is deleted it cant be retrived.',
-                                style: TextStyle(
-                                  color: Colors.redAccent,
-                                  fontFamily: 'Montserrat-Regular',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 17.0,
-                                ),
+                              SizedBox(
+                                height: 20,
                               ),
-                              actions: [
-                                if (postData.postAddedByUid != USER_ID) ActionSheetAction(
-                                  text: "Report",
-                                  onPressed: () {
-                                    final reported = postData != null ? postData.reported : [];
-                                    reported.add(USER_ID);
-                                    final postEntry = PostDetails(
-                                        reported: reported);
-                                    database.updatePostEntry(postEntry, postData != null ? postData.postID : 'fetching...');
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+        );
+      },
+    );
+  }
 
-                                    Navigator.pop(context);
-                                  },
-                                  hasArrow: true,
-                                ),
-                                if (postData.postAddedByUid == USER_ID)  ActionSheetAction(
-                                  text: "Delete",
-                                  onPressed: () {
-                                    final postEntry = PostDetails(
-                                        postIsDeleted: true);
-                                    database.updatePostEntry(postEntry, postData != null ? postData.postID : 'fetching...');
-
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                                ActionSheetAction(
-                                  text: "Cancel",
-                                  onPressed: () => Navigator.pop(context),
-                                  isCancel: true,
-                                  defaultAction: true,
-                                )
-                              ]);
-                        }),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: postData.postType == 0 ? Container(
-                height: 200,
-                decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(10.0),
-                    image: DecorationImage(
-                        image: NetworkImage(postData.postImagePath),
-                        fit: BoxFit.fill))) : Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: InkWell(
-                  child: Text(
-                    postData.postUrl,
-                    style: urlTextStyle,
-                  ),
-                  onTap: () {}),
-            ),
-          ),
-          Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    postData != null ? postData.postTitle == 'not updated' ? '' : postData.postTitle : 'fetching...',
-                    style: subTitleStyle,
-                    textAlign: TextAlign.start,
-                  ),
-                ),
-          Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    postData != null ? postData.postDescription == 'not updated' ? '' : postData.postDescription : 'fetching...',
-                    style: descriptionStyleDarkBlur,
-                    textAlign: TextAlign.start,
-                  ),
-                ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                GestureDetector(
-                  child: Column(
+  Widget FeedCard(PostDetails postData, UserDetails postUserData,
+      BuildContext context, Database database) {
+    return Card(
+      elevation: 10,
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all( 10.0 ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Column(
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Icon(
-                            Icons.check,
-                            color: Colors.green,
+                          Column(
+                            children: <Widget>[
+                              CircleAvatar(
+                                child: Text(
+                                  postUserData != null ? postUserData
+                                      .username[0] : '...',
+                                  style: subTitleStyleLight,
+                                ),
+                                radius: 25.0,
+                                backgroundColor: backgroundColor.withOpacity(
+                                    .9 ),
+                              ),
+                            ],
                           ),
                           SizedBox(
-                            width: 5,
+                            width: 30,
                           ),
-                          Text(
-                            "Correct",
-                            style: TextStyle(
-                                color: Colors.green,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15.0),
+                          Column(
+                            children: <Widget>[
+                              Text(
+                                postUserData != null
+                                    ? postUserData.username
+                                    : '...',
+                                style: subTitleStyle,
+                              )
+                            ],
                           ),
                         ],
-                      ),
-                      Text(
-                        postData != null ? postData.reactedCorrect.length.toString() : '--',
-                        style: TextStyle(
-                            color: postData.reactedCorrect.contains(USER_ID) ? Colors.green : Colors.black,
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15.0),
-                      ),
+                      )
                     ],
                   ),
-                  onTap: () {
+                  Column(
+                    children: <Widget>[
+                      InkWell(
+                          child: Icon(
+                            Icons.more_horiz,
+                            color: backgroundColor,
+                            size: 30,
+                          ),
+                          onTap: () {
+                            PlatformActionSheet( ).displaySheet(
+                                context: context,
+                                title: (postData.postAddedByUid != USER_ID) ?
+                                Text(
+                                  'Once the post is reported it cant be reverted.',
+                                  style: TextStyle(
+                                    color: Colors.redAccent,
+                                    fontFamily: 'Montserrat-Regular',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 17.0,
+                                  ),
+                                )
+                                    :
+                                Text(
+                                  'Once the post is deleted it cant be retrived.',
+                                  style: TextStyle(
+                                    color: Colors.redAccent,
+                                    fontFamily: 'Montserrat-Regular',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 17.0,
+                                  ),
+                                ),
+                                actions: [
+                                  if (postData.postAddedByUid !=
+                                      USER_ID) ActionSheetAction(
+                                    text: "Report",
+                                    onPressed: () {
+                                      final reported = postData != null
+                                          ? postData.reported
+                                          : [];
+                                      reported.add( USER_ID );
+                                      final postEntry = PostDetails(
+                                          reported: reported );
+                                      database.updatePostEntry( postEntry,
+                                          postData != null
+                                              ? postData.postID
+                                              : 'fetching...' );
 
-                    final reactedCorrect = postData != null ? postData.reactedCorrect : [];
-                    final reactedWrong = postData != null ? postData.reactedWrong : [];
-                    final reactedUIDs = postData != null ? postData.reactedIDs : [];
+                                      Navigator.pop( context );
+                                    },
+                                    hasArrow: true,
+                                  ),
+                                  if (postData.postAddedByUid ==
+                                      USER_ID) ActionSheetAction(
+                                    text: "Delete",
+                                    onPressed: () {
+                                      final postEntry = PostDetails(
+                                          postIsDeleted: true );
+                                      database.updatePostEntry( postEntry,
+                                          postData != null
+                                              ? postData.postID
+                                              : 'fetching...' );
 
-                    if(postData.reactedIDs.contains(USER_ID)){
-
-                      if(postData.reactedCorrect.contains(USER_ID)){
-                        reactedCorrect.remove(USER_ID);
-                        reactedUIDs.remove(USER_ID);
-
-                        final postEntry = PostDetails(
-                            reactedCorrect: reactedCorrect,
-                            reactedIDs: reactedUIDs);
-
-                        database.updatePostEntry(postEntry, postData != null ? postData.postID : 'fetching...');
-
-                        final _userDetails = UserDetails(
-                            totalReactions: postUserData.totalReactions - 1);
-                        database.updateUserDetails(_userDetails, DateTime.now().toString());
-                      }else if(postData.reactedWrong.contains(USER_ID)){
-
-                        reactedCorrect.add(USER_ID);
-                        reactedWrong.remove(USER_ID);
-
-                        final postEntry = PostDetails(
-                            reactedCorrect: reactedCorrect,
-                            reactedIDs: reactedUIDs,
-                            reactedWrong: reactedWrong);
-
-                        database.updatePostEntry(postEntry, postData != null ? postData.postID : 'fetching...');
-
-                      }
-                    }else{
-                      reactedCorrect.add(USER_ID);
-                      reactedUIDs.add(USER_ID);
-
-                      final postEntry = PostDetails(
-                          reactedCorrect: reactedCorrect,
-                          reactedIDs: reactedUIDs);
-                      database.updatePostEntry(postEntry, postData != null ? postData.postID :'fetching...');
-
-
-                      final _userDetails = UserDetails(
-                          totalReactions: postUserData.totalReactions + 1);
-                      database.updateUserDetails(_userDetails, DateTime.now().toString());
-                    }
-                  },
+                                      Navigator.pop( context );
+                                    },
+                                  ),
+                                  ActionSheetAction(
+                                    text: "Cancel",
+                                    onPressed: () => Navigator.pop( context ),
+                                    isCancel: true,
+                                    defaultAction: true,
+                                  )
+                                ] );
+                          } ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all( 10.0 ),
+              child: postData.postType == 0 ? Container(
+                  height: 200,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular( 10.0 ),
+                      image: DecorationImage(
+                          image: NetworkImage( postData.postImagePath ),
+                          fit: BoxFit.fill ) ) ) : Padding(
+                padding: const EdgeInsets.all( 10.0 ),
+                child: Link(
+                  child: Text( postData.postUrl, style: urlTextStyle, ),
+                  url: postData.postUrl,
+                  onError: _showErrorSnackBar,
                 ),
-                SizedBox(
-                  width: 45,
-                ),
-                GestureDetector(
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all( 10.0 ),
+              child: Text(
+                postData != null ? postData.postTitle == 'not updated'
+                    ? ''
+                    : postData.postTitle : 'fetching...',
+                style: subTitleStyle,
+                textAlign: TextAlign.start,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all( 10.0 ),
+              child: Text(
+                postData != null ? postData.postDescription == 'not updated'
+                    ? ''
+                    : postData.postDescription : 'fetching...',
+                style: descriptionStyleDarkBlur,
+                textAlign: TextAlign.start,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all( 10.0 ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  GestureDetector(
                     child: Column(
                       children: <Widget>[
                         Row(
                           children: <Widget>[
                             Icon(
-                              Icons.close,
-                              color: Colors.redAccent,
+                              Icons.check,
+                              color: Colors.green,
                             ),
                             SizedBox(
                               width: 5,
                             ),
                             Text(
-                              "Wrong",
+                              "Correct",
                               style: TextStyle(
-                                  color: Colors.redAccent,
+                                  color: Colors.green,
                                   fontFamily: 'Montserrat',
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 15.0),
+                                  fontSize: 15.0 ),
                             ),
                           ],
                         ),
                         Text(
-                          postData != null ? postData.reactedWrong.length.toString() : '0',
+                          postData != null ? postData.reactedCorrect.length
+                              .toString( ) : '--',
                           style: TextStyle(
-                              color: postData.reactedWrong.contains(USER_ID) ? Colors.red : Colors.black,
+                              color: postData.reactedCorrect.contains( USER_ID )
+                                  ? Colors.green
+                                  : Colors.black,
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w500,
-                              fontSize: 15.0),
+                              fontSize: 15.0 ),
                         ),
                       ],
                     ),
                     onTap: () {
+                      final reactedCorrect = postData != null ? postData
+                          .reactedCorrect : [];
+                      final reactedWrong = postData != null ? postData
+                          .reactedWrong : [];
+                      final reactedUIDs = postData != null
+                          ? postData.reactedIDs
+                          : [];
 
-                      final reactedCorrect = postData != null ? postData.reactedCorrect : [];
-                      final reactedWrong = postData != null ? postData.reactedWrong : [];
-                      final reactedUIDs = postData != null ? postData.reactedIDs : [];
+                      if (postData.reactedIDs.contains( USER_ID )) {
+                        if (postData.reactedCorrect.contains( USER_ID )) {
+                          reactedCorrect.remove( USER_ID );
+                          reactedUIDs.remove( USER_ID );
 
+                          final postEntry = PostDetails(
+                              reactedCorrect: reactedCorrect,
+                              reactedIDs: reactedUIDs );
 
-                      if(postData.reactedIDs.contains(USER_ID)){
+                          database.updatePostEntry( postEntry, postData != null
+                              ? postData.postID
+                              : 'fetching...' );
 
-                        if(postData.reactedCorrect.contains(USER_ID)){
-                          reactedCorrect.remove(USER_ID);
-                          reactedWrong.add(USER_ID);
+                          final _userDetails = UserDetails(
+                              totalReactions: postUserData.totalReactions - 1 );
+                          database.updateUserDetails( _userDetails, DateTime
+                              .now( ).toString( ) );
+                        } else if (postData.reactedWrong.contains( USER_ID )) {
+                          reactedCorrect.add( USER_ID );
+                          reactedWrong.remove( USER_ID );
 
                           final postEntry = PostDetails(
                               reactedCorrect: reactedCorrect,
                               reactedIDs: reactedUIDs,
-                          reactedWrong: reactedWrong);
+                              reactedWrong: reactedWrong );
 
-                          database.updatePostEntry(postEntry, postData != null ? postData.postID : 'fetching...');
-                        }else if(postData.reactedWrong.contains(USER_ID)){
-
-                          reactedWrong.remove(USER_ID);
-                          reactedUIDs.remove(USER_ID);
-
-                          final postEntry = PostDetails(
-                              reactedIDs: reactedUIDs,
-                              reactedWrong: reactedWrong);
-
-                          database.updatePostEntry(postEntry, postData != null ? postData.postID : 'fetching...');
-
-                          final _userDetails = UserDetails(
-                              totalReactions: postUserData.totalReactions - 1);
-                          database.updateUserDetails(_userDetails, DateTime.now().toString());
-
+                          database.updatePostEntry( postEntry, postData != null
+                              ? postData.postID
+                              : 'fetching...' );
                         }
-                      }else{
-                        reactedWrong.add(USER_ID);
-                        reactedUIDs.add(USER_ID);
+                      } else {
+                        reactedCorrect.add( USER_ID );
+                        reactedUIDs.add( USER_ID );
 
                         final postEntry = PostDetails(
-                            reactedWrong: reactedWrong,
-                            reactedIDs: reactedUIDs);
+                            reactedCorrect: reactedCorrect,
+                            reactedIDs: reactedUIDs );
+                        database.updatePostEntry( postEntry, postData != null
+                            ? postData.postID
+                            : 'fetching...' );
 
-                        database.updatePostEntry(postEntry, postData != null ? postData.postID : 'fetching...');
 
                         final _userDetails = UserDetails(
-                            totalReactions: postUserData.totalReactions + 1);
-                        database.updateUserDetails(_userDetails, DateTime.now().toString());
-
+                            totalReactions: postUserData.totalReactions + 1 );
+                        database.updateUserDetails(
+                            _userDetails, DateTime.now( ).toString( ) );
                       }
-                    }),
-              ],
+                    },
+                  ),
+                  SizedBox(
+                    width: 45,
+                  ),
+                  GestureDetector(
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.close,
+                                color: Colors.redAccent,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "Wrong",
+                                style: TextStyle(
+                                    color: Colors.redAccent,
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15.0 ),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            postData != null ? postData.reactedWrong.length
+                                .toString( ) : '0',
+                            style: TextStyle(
+                                color: postData.reactedWrong.contains( USER_ID )
+                                    ? Colors.red
+                                    : Colors.black,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 15.0 ),
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        final reactedCorrect = postData != null ? postData
+                            .reactedCorrect : [];
+                        final reactedWrong = postData != null ? postData
+                            .reactedWrong : [];
+                        final reactedUIDs = postData != null ? postData
+                            .reactedIDs : [];
+
+
+                        if (postData.reactedIDs.contains( USER_ID )) {
+                          if (postData.reactedCorrect.contains( USER_ID )) {
+                            reactedCorrect.remove( USER_ID );
+                            reactedWrong.add( USER_ID );
+
+                            final postEntry = PostDetails(
+                                reactedCorrect: reactedCorrect,
+                                reactedIDs: reactedUIDs,
+                                reactedWrong: reactedWrong );
+
+                            database.updatePostEntry( postEntry, postData !=
+                                null ? postData.postID : 'fetching...' );
+                          } else
+                          if (postData.reactedWrong.contains( USER_ID )) {
+                            reactedWrong.remove( USER_ID );
+                            reactedUIDs.remove( USER_ID );
+
+                            final postEntry = PostDetails(
+                                reactedIDs: reactedUIDs,
+                                reactedWrong: reactedWrong );
+
+                            database.updatePostEntry( postEntry, postData !=
+                                null ? postData.postID : 'fetching...' );
+
+                            final _userDetails = UserDetails(
+                                totalReactions: postUserData.totalReactions -
+                                    1 );
+                            database.updateUserDetails( _userDetails, DateTime
+                                .now( ).toString( ) );
+                          }
+                        } else {
+                          reactedWrong.add( USER_ID );
+                          reactedUIDs.add( USER_ID );
+
+                          final postEntry = PostDetails(
+                              reactedWrong: reactedWrong,
+                              reactedIDs: reactedUIDs );
+
+                          database.updatePostEntry( postEntry, postData != null
+                              ? postData.postID
+                              : 'fetching...' );
+
+                          final _userDetails = UserDetails(
+                              totalReactions: postUserData.totalReactions + 1 );
+                          database.updateUserDetails(
+                              _userDetails, DateTime.now( ).toString( ) );
+                        }
+                      } ),
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Text(
-                      getDateTime(postData != null ? postData.postAddedDate.seconds : 0),
-                      style: descriptionStyleDarkBlur,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.all( 10.0 ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Text(
+                        getDateTime( postData != null
+                            ? postData.postAddedDate.seconds
+                            : 0 ),
+                        style: descriptionStyleDarkBlur,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
-    ),
-  );
-}
 
-showAlertDialog(BuildContext context) {
-  // set up the list options
-  Widget optionOne = SimpleDialogOption(
-    child: const Text('horse'),
-    onPressed: () {
-      print('horse');
-      Navigator.of(context).pop();
-    },
-  );
-  Widget optionTwo = SimpleDialogOption(
-    child: const Text('cow'),
-    onPressed: () {
-      print('cow');
-      Navigator.of(context).pop();
-    },
-  );
-  Widget optionThree = SimpleDialogOption(
-    child: const Text('camel'),
-    onPressed: () {
-      print('camel');
-      Navigator.of(context).pop();
-    },
-  );
-  Widget optionFour = SimpleDialogOption(
-    child: const Text('sheep'),
-    onPressed: () {
-      print('sheep');
-      Navigator.of(context).pop();
-    },
-  );
-  Widget optionFive = SimpleDialogOption(
-    child: const Text('goat'),
-    onPressed: () {
-      print('goat');
-      Navigator.of(context).pop();
-    },
-  );
+    );
+  }
 
-  // set up the SimpleDialog
-  SimpleDialog dialog = SimpleDialog(
-    title: const Text('Choose an animal'),
-    children: <Widget>[
-      optionOne,
-      optionTwo,
-      optionThree,
-      optionFour,
-      optionFive,
-    ],
-  );
+  void _showErrorSnackBar() {
+    Scaffold.of( context ).showSnackBar(
+      SnackBar(
+        content: Text( 'Oops... the URL couldn\'t be opened!' ),
+      ),
+    );
+  }
 
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return dialog;
-    },
-  );
+  showAlertDialog(BuildContext context) {
+    // set up the list options
+    Widget optionOne = SimpleDialogOption(
+      child: const Text( 'horse' ),
+      onPressed: () {
+        print( 'horse' );
+        Navigator.of( context ).pop( );
+      },
+    );
+    Widget optionTwo = SimpleDialogOption(
+      child: const Text( 'cow' ),
+      onPressed: () {
+        print( 'cow' );
+        Navigator.of( context ).pop( );
+      },
+    );
+    Widget optionThree = SimpleDialogOption(
+      child: const Text( 'camel' ),
+      onPressed: () {
+        print( 'camel' );
+        Navigator.of( context ).pop( );
+      },
+    );
+    Widget optionFour = SimpleDialogOption(
+      child: const Text( 'sheep' ),
+      onPressed: () {
+        print( 'sheep' );
+        Navigator.of( context ).pop( );
+      },
+    );
+    Widget optionFive = SimpleDialogOption(
+      child: const Text( 'goat' ),
+      onPressed: () {
+        print( 'goat' );
+        Navigator.of( context ).pop( );
+      },
+    );
+
+    // set up the SimpleDialog
+    SimpleDialog dialog = SimpleDialog(
+      title: const Text( 'Choose an animal' ),
+      children: <Widget>[
+        optionOne,
+        optionTwo,
+        optionThree,
+        optionFour,
+        optionFive,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return dialog;
+      },
+    );
+  }
+
 }
