@@ -5,6 +5,7 @@ import 'package:know_it_master/AuthenticationScreens/SignUp_Screen.dart';
 import 'package:know_it_master/Database_models/PostDetails.dart';
 import 'package:know_it_master/Database_models/UserDetails.dart';
 import 'package:know_it_master/HomeScreens/Add_Feed.dart';
+import 'package:know_it_master/HomeScreens/Add_Link.dart';
 import 'package:know_it_master/HomeScreens/Profile_Screen.dart';
 import 'package:know_it_master/HomeScreens/contact/entry.dart';
 import 'package:know_it_master/common_variables/app_colors.dart';
@@ -89,10 +90,38 @@ class _F_HomePageState extends State<F_HomePage> {
                           children: <Widget>[
                             Padding(
                               padding:
+                              const EdgeInsets.only(bottom: 20, right: 10),
+                              child: CircleAvatar(
+                                child: Text(
+                                   'Lin',
+                                  style: subTitleStyleLight,
+                                ),
+                                radius: 25.0,
+                                backgroundColor:
+                                subBackgroundColor.withOpacity(.3),
+                              ),
+                            )
+                          ],
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddLink(),
+                            ),
+                          );
+                        }),
+                    GestureDetector(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            Padding(
+                              padding:
                                   const EdgeInsets.only(bottom: 20, right: 10),
                               child: CircleAvatar(
                                 child: Text(
-                                  user != null ? user.username[0] : '',
+                                  "Con",
                                   style: subTitleStyleLight,
                                 ),
                                 radius: 25.0,

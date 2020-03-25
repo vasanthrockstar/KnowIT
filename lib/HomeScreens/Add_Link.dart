@@ -13,35 +13,35 @@ import 'package:know_it_master/common_widgets/button_widget/to_do_button.dart';
 import 'package:know_it_master/common_widgets/custom_appbar_widget/custom_app_bar.dart';
 import 'package:know_it_master/common_widgets/offline_widgets/offline_widget.dart';
 import 'package:know_it_master/common_widgets/platform_alert/platform_exception_alert_dialog.dart';
-
+import 'package:link/link.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:know_it_master/firebase/database.dart';
 
-class AddFeed extends StatelessWidget {
-  AddFeed({@required this.database, @required this.phoneNumber, @required this.totalMediaCount});
+class AddLink extends StatelessWidget {
+  AddLink({@required this.database, @required this.phoneNumber, @required this.totalMediaCount});
   Database database;
   String phoneNumber;
   int totalMediaCount;
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: F_AddFeed(database: database, phoneNumber:phoneNumber),
+      child: F_AddLink(database: database, phoneNumber:phoneNumber),
     );
   }
 }
 
-class F_AddFeed extends StatefulWidget {
-  F_AddFeed({@required this.database, @required this.phoneNumber, @required this.totalMediaCount});
+class F_AddLink extends StatefulWidget {
+  F_AddLink({@required this.database, @required this.phoneNumber, @required this.totalMediaCount});
   Database database;
   String phoneNumber;
   int totalMediaCount;
 
   @override
-  _F_AddFeedState createState() => _F_AddFeedState();
+  _F_AddLinkState createState() => _F_AddLinkState();
 }
 
-class _F_AddFeedState extends State<F_AddFeed> {
+class _F_AddLinkState extends State<F_AddLink> {
 
   File _postPic;
   String _postTitle;
@@ -281,37 +281,10 @@ class _F_AddFeedState extends State<F_AddFeed> {
         keyboardAppearance: Brightness.dark,
       ),
       SizedBox(height: 20,),
-      GestureDetector(
-        child: _postPic == null ? Container(
-          height: 150,
-          decoration: BoxDecoration(
-            color: Colors.grey[100],
-            border: Border.all(
-              width: 0.5, //
-            ),
-            shape: BoxShape.rectangle,
-            borderRadius: new BorderRadius.circular(10.0),
-          ),
-
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text("Add Image",style: subTitleStyle,),
-              Icon(Icons.add_photo_alternate,size: 40,)
-            ],
-          ),
-        ) : Container(
-          height: 150,
-          decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              image: DecorationImage(
-                image: FileImage(_postPic),  // here add your image file path
-                fit: BoxFit.fill,
-              )),
-        ),
-        onTap: (){
-          _captureImage();
-        },
+      Link(
+        child: Text('https://pub.dev/packages/link',style: TextStyle(color: subBackgroundColor,decoration: TextDecoration.underline,),),
+        url: 'https://flutter.dev',
+        onError: _showErrorSnackBar,
       ),
       SizedBox(height: 20,),
       TextField(
@@ -337,6 +310,13 @@ class _F_AddFeedState extends State<F_AddFeed> {
         keyboardAppearance: Brightness.dark,
       ),
     ];
+  }
+  void _showErrorSnackBar() {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Oops... the URL couldn\'t be opened!'),
+      ),
+    );
   }
 
   Future<void> _captureImage() async {
