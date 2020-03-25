@@ -281,10 +281,12 @@ class _F_AddLinkState extends State<F_AddLink> {
         keyboardAppearance: Brightness.dark,
       ),
       SizedBox(height: 20,),
-      Link(
-        child: Text('https://pub.dev/packages/link',style: TextStyle(color: subBackgroundColor,decoration: TextDecoration.underline,),),
-        url: 'https://flutter.dev',
-        onError: _showErrorSnackBar,
+      Center(
+        child: Link(
+          child: Text('https://pub.dev/packages/link',style: TextStyle(color: subBackgroundColor,decoration: TextDecoration.underline,),),
+          url: 'https://flutter.dev',
+          onError: _showErrorSnackBar,
+        ),
       ),
       SizedBox(height: 20,),
       TextField(
