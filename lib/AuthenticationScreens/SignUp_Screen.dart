@@ -377,6 +377,9 @@ class _F_SignUpPageState extends State<F_SignUpPage> {
         latitude: '',
         longitude: '',
         userImagePath: path,
+        totalLinks: 0,
+        totalMedia: 0,
+        totalReactions: 0,
       );
 
       await FirestoreService.instance.setData(

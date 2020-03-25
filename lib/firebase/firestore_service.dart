@@ -30,12 +30,18 @@ class FirestoreService {
   }
 
   Stream<List<T>> collectionStream<T>({
+    @required int type, //0 is for collection , 1 is for collectionGroup
     @required String path,
     @required T builder(Map<String, dynamic> data, String documentID),
     Query queryBuilder(Query query),
     int sort(T lhs, T rhs),
   }) {
-    Query query = Firestore.instance.collection(path);
+    Query query;
+    if (type == 0) {
+      query = Firestore.instance.collection(path);
+    }else{
+      query = Firestore.instance.collectionGroup(path);
+    }
     if (queryBuilder != null) {
       query = queryBuilder(query);
     }

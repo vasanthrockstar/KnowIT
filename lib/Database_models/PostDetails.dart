@@ -12,14 +12,14 @@ class PostDetails{
     this.postUrl,
     this.empty,
     this.postDescription,
-    this.postReportedCount,
     this.postType,
     this.postViewCount,
     this.postVisitedCount,
-    this.postWrongCount,
-    this.postRightCount,
     this.postID,
-
+    this.reactedCorrect,
+    this.reactedWrong,
+    this.reported,
+    this.reactedIDs,
   });
 
   final bool postIsDeleted;
@@ -31,12 +31,15 @@ class PostDetails{
   final String postTitle;
   final String postDescription;
   final String postUrl;
-  final int postReportedCount;
   final int postType;
   final int postViewCount;
   final int postVisitedCount;
-  final int postWrongCount;
-  final int postRightCount;
+
+  var reactedCorrect =[];
+  var reactedWrong=[];
+  var reported=[];
+  var reactedIDs=[];
+
 
   final String postID;
   final Null empty;
@@ -58,13 +61,15 @@ class PostDetails{
     final String postTitle = data['post_title'];
     final String postDescription = data['post_description'];
     final String postUrl = data['post_url'];
-    final int postReportedCount = data['post_reported_count'];
     final int postType = data['post_type'];
     final int postViewCount = data['post_view_count'];
     final int postVisitedCount = data['post_visited_count'];
-    final int postWrongCount = data['post_wrong_count'];
-    final int postRightCount = data['Post_right_count'];
     final Null empty = data['empty'];
+
+    final reactedCorrect = data['reacted_correct'];
+    final reactedWrong = data['reacted_wrong'];
+    final reported = data['reported'];
+    final reactedIDs = data['reacted_ids'];
 
 
     return PostDetails(
@@ -77,13 +82,14 @@ class PostDetails{
       postTitle: postTitle,
       postDescription: postDescription,
       postUrl: postUrl,
-      postReportedCount: postReportedCount,
       postType: postType,
       postViewCount: postViewCount,
       postVisitedCount: postVisitedCount,
-      postWrongCount: postWrongCount,
-      postRightCount: postRightCount,
       postID: postID,
+      reactedCorrect:reactedCorrect,
+      reactedWrong:reactedWrong,
+      reported:reported,
+      reactedIDs:reactedIDs,
       empty: empty,
 
     );
@@ -100,12 +106,16 @@ class PostDetails{
       postTitle != null ? 'post_title': 'empty' : postTitle,
       postDescription != null ? 'post_description': 'empty' : postDescription,
       postUrl != null ? 'post_url': 'empty' : postUrl,
-      postReportedCount != null ? 'post_reported_count':'empty' :  postReportedCount,
       postType != null ? 'post_type': 'empty' : postType,
       postViewCount != null ? 'post_view_count': 'empty' : postViewCount,
       postVisitedCount != null ? 'post_visited_count': 'empty' : postVisitedCount,
-      postWrongCount != null ? 'post_wrong_count': 'empty' : postWrongCount,
-      postRightCount != null ? 'Post_right_count': 'empty' : postRightCount,
+      reactedIDs != null ? 'reacted_ids': 'empty' : reactedIDs,
+      reactedCorrect != null ? 'reacted_correct': 'empty' : reactedCorrect,
+      reactedWrong != null ? 'reacted_wrong': 'empty' : reactedWrong,
+      reported != null ? 'reported': 'empty' : reported,
+
+
+
     };
   }
 }

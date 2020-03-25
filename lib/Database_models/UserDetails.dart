@@ -11,6 +11,9 @@ class UserDetails{
     this.userID,
     this.empty,
     this.userImagePath,
+    this.totalLinks,
+    this.totalMedia,
+    this.totalReactions,
 
   });
 
@@ -24,7 +27,9 @@ class UserDetails{
   final String userImagePath;
   final String userID;
   final Null empty;
-
+  final int totalLinks;
+  final int totalMedia;
+  final int totalReactions;
 
 
   factory UserDetails.fromMap(Map<String, dynamic> data, String documentID){
@@ -41,6 +46,10 @@ class UserDetails{
     final String latitude = data['user_latitude'];
     final String longitude = data['user_longitude'];
     final String userImagePath = data['user_image_path'];
+    final int totalLinks = data['total_links'];
+    final int totalMedia = data['total_media'];
+    final int totalReactions = data['total_reactions'];
+
     final Null empty = data['empty'];
 
 
@@ -54,6 +63,9 @@ class UserDetails{
       longitude: longitude,
       userID: userID,
       userImagePath: userImagePath,
+      totalLinks:totalLinks,
+      totalMedia:totalMedia,
+      totalReactions:totalReactions,
       empty: empty,
 
     );
@@ -69,6 +81,9 @@ class UserDetails{
       latitude != null ? 'user_latitude': 'empty' : latitude,
       longitude != null ? 'user_longitude': 'empty' : longitude,
       userImagePath != null ? 'user_image_path': 'empty' : userImagePath,
+      totalLinks != null ? 'total_links': 'empty' : totalLinks,
+      totalMedia != null ? 'total_media': 'empty' : totalMedia,
+      totalReactions != null ? 'total_reactions': 'empty' : totalReactions,
     };
   }
 }

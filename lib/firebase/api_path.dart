@@ -4,4 +4,6 @@ class APIPath {
 
   static String postDetails(String postID) => 'posts/$postID';
   static String readPosts() => 'posts/';
+
+  static String postReaction(String postID, String uid) => 'posts/$postID/reactions/$uid';
 }

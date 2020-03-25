@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:know_it_master/Database_models/PostDetails.dart';
+import 'package:know_it_master/Database_models/UserDetails.dart';
 import 'package:know_it_master/common_variables/app_colors.dart';
 import 'package:know_it_master/common_variables/app_fonts.dart';
 import 'package:know_it_master/common_variables/app_functions.dart';
@@ -18,9 +19,10 @@ import 'package:flutter/services.dart';
 import 'package:know_it_master/firebase/database.dart';
 
 class AddFeed extends StatelessWidget {
-  AddFeed({@required this.database, @required this.phoneNumber});
+  AddFeed({@required this.database, @required this.phoneNumber, @required this.totalMediaCount});
   Database database;
   String phoneNumber;
+  int totalMediaCount;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,9 +32,10 @@ class AddFeed extends StatelessWidget {
 }
 
 class F_AddFeed extends StatefulWidget {
-  F_AddFeed({@required this.database, @required this.phoneNumber});
+  F_AddFeed({@required this.database, @required this.phoneNumber, @required this.totalMediaCount});
   Database database;
   String phoneNumber;
+  int totalMediaCount;
 
   @override
   _F_AddFeedState createState() => _F_AddFeedState();
@@ -104,16 +107,21 @@ class _F_AddFeedState extends State<F_AddFeed> {
           postTitle: _postTitle,
           postDescription: _postDescription,
           postUrl: 'not updated',
-          postReportedCount: 0,
           postType: 0, //0 for image type, 1 for link type
           postViewCount: 0,
           postVisitedCount: 0,
-          postWrongCount: 0,
-          postRightCount: 0,
+          reactedCorrect: [],
+          reactedWrong: [],
+          reported: [],
+          reactedIDs: [],
           empty: null,
         );
 
         await widget.database.setPostEntry(_postEntry, DateTime.now().toString());
+
+        final _userDetails = UserDetails(
+            totalMedia: widget.totalMediaCount + 1);
+        await widget.database.updateUserDetails(_userDetails, DateTime.now().toString());
 
         Navigator.of(context).pop();
       }on PlatformException catch (e){

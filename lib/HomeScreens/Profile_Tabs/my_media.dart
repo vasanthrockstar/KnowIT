@@ -85,16 +85,7 @@ class _F_MyMediaPageState extends State<F_MyMediaPage> {
                         children: <Widget>[
                           Column(
                             children: <Widget>[
-                              FeedCard(
-                                  postUserData != null ? postUserData.username[0] : '.',
-                                  postUserData != null ? postUserData.username : 'fetching...',
-                                  postData.postTitle,
-                                  postData.postDescription,
-                                  postData.postRightCount.toString(),
-                                  postData.postWrongCount.toString(),
-                                  postData.postImagePath,
-                                  getDateTime(postUserData != null ? postData.postAddedDate.seconds : 0),
-                                  postData.postType),
+                              FeedCard(postData, postUserData, context),
                             ],
                           ),
                           SizedBox(
@@ -113,18 +104,7 @@ class _F_MyMediaPageState extends State<F_MyMediaPage> {
     );
   }
 
-  Widget FeedCard(
-      String initial,
-      String name,
-//      String weblink,
-      String title,
-      String description,
-      String correctCount,
-      String wrongCount,
-      String imgLink,
-      String date,
-      int postType
-      ) {
+  Widget FeedCard(PostDetails postData, UserDetails postUserData, BuildContext context) {
     return Card(
       child: Container(
         child: Column(
@@ -142,7 +122,7 @@ class _F_MyMediaPageState extends State<F_MyMediaPage> {
                             children: <Widget>[
                               CircleAvatar(
                                 child: Text(
-                                  initial,
+                                  postUserData.username[0],
                                   style: subTitleStyleLight,
                                 ),
                                 radius: 25.0,
@@ -156,7 +136,7 @@ class _F_MyMediaPageState extends State<F_MyMediaPage> {
                           Column(
                             children: <Widget>[
                               Text(
-                                name,
+                                postUserData.username,
                                 style: subTitleStyle,
                               )
                             ],
@@ -187,12 +167,12 @@ class _F_MyMediaPageState extends State<F_MyMediaPage> {
                       color: Colors.grey[300],
                       borderRadius: BorderRadius.circular(10.0),
                       image: DecorationImage(
-                          image: NetworkImage(imgLink), fit: BoxFit.fill))),
+                          image: NetworkImage(postData.postImagePath), fit: BoxFit.fill))),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                title,
+                postData.postTitle,
                 style: subTitleStyle,
                 textAlign: TextAlign.start,
               ),
@@ -201,7 +181,7 @@ class _F_MyMediaPageState extends State<F_MyMediaPage> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                description,
+                postData.postDescription,
                 style: descriptionStyleDarkBlur,
                 textAlign: TextAlign.start,
               ),
@@ -210,83 +190,186 @@ class _F_MyMediaPageState extends State<F_MyMediaPage> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  GestureDetector(
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.check,
+                              color: Colors.green,
+                            ),
+                            SizedBox(width: 5,),
+                            Text(
+                              "Correct",
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15.0),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          postData.reactedCorrect.length.toString(),
+                          style: TextStyle(
+                              color: Colors.green,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15.0),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+
+                      final reactedCorrect = postData.reactedCorrect;
+                      final reactedWrong = postData.reactedWrong;
+                      final reactedUIDs = postData.reactedIDs;
+
+                      if(postData.reactedIDs.contains(USER_ID)){
+
+                        if(postData.reactedCorrect.contains(USER_ID)){
+                          reactedCorrect.remove(USER_ID);
+                          reactedUIDs.remove(USER_ID);
+
+                          final postEntry = PostDetails(
+                              reactedCorrect: reactedCorrect,
+                              reactedIDs: reactedUIDs);
+
+                          widget.database.updatePostEntry(postEntry, postData.postID);
+
+                          final _userDetails = UserDetails(
+                              totalReactions: postUserData.totalReactions - 1);
+                          widget.database.updateUserDetails(_userDetails, DateTime.now().toString());
+                        }else if(postData.reactedWrong.contains(USER_ID)){
+
+                          reactedCorrect.add(USER_ID);
+                          reactedWrong.remove(USER_ID);
+
+                          final postEntry = PostDetails(
+                              reactedCorrect: reactedCorrect,
+                              reactedIDs: reactedUIDs,
+                              reactedWrong: reactedWrong);
+
+                          widget.database.updatePostEntry(postEntry, postData.postID);
+
+                        }
+                      }else{
+                        reactedCorrect.add(USER_ID);
+                        reactedUIDs.add(USER_ID);
+
+                        final postEntry = PostDetails(
+                            reactedCorrect: reactedCorrect,
+                            reactedIDs: reactedUIDs);
+
+                        widget.database.updatePostEntry(postEntry, postData.postID);
+
+                        final _userDetails = UserDetails(
+                            totalReactions: postUserData.totalReactions + 1);
+                        widget.database.updateUserDetails(_userDetails, DateTime.now().toString());
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    width:45,
+                  ),
+                  GestureDetector(
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.close,
+                                color: Colors.redAccent,
+                              ),
+                              SizedBox(width: 5,),
+                              Text(
+                                "Wrong",
+                                style: TextStyle(
+                                    color: Colors.redAccent,
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15.0),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            postData.reactedWrong.length.toString(),
+                            style: TextStyle(
+                                color: Colors.redAccent,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 15.0),
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+
+                        final reactedCorrect = postData.reactedCorrect;
+                        final reactedWrong = postData.reactedWrong;
+                        final reactedUIDs = postData.reactedIDs;
+
+
+                        if(postData.reactedIDs.contains(USER_ID)){
+
+                          if(postData.reactedCorrect.contains(USER_ID)){
+                            reactedCorrect.remove(USER_ID);
+                            reactedWrong.add(USER_ID);
+
+                            final postEntry = PostDetails(
+                                reactedCorrect: reactedCorrect,
+                                reactedIDs: reactedUIDs,
+                                reactedWrong: reactedWrong);
+
+                            widget.database.updatePostEntry(postEntry, postData.postID);
+                          }else if(postData.reactedWrong.contains(USER_ID)){
+
+                            reactedWrong.remove(USER_ID);
+                            reactedUIDs.remove(USER_ID);
+
+                            final postEntry = PostDetails(
+                                reactedIDs: reactedUIDs,
+                                reactedWrong: reactedWrong);
+
+                            widget.database.updatePostEntry(postEntry, postData.postID);
+
+                            final _userDetails = UserDetails(
+                                totalReactions: postUserData.totalReactions - 1);
+                            widget.database.updateUserDetails(_userDetails, DateTime.now().toString());
+
+                          }
+                        }else{
+                          reactedWrong.add(USER_ID);
+                          reactedUIDs.add(USER_ID);
+
+                          final postEntry = PostDetails(
+                              reactedWrong: reactedWrong,
+                              reactedIDs: reactedUIDs);
+
+                          widget.database.updatePostEntry(postEntry, postData.postID);
+
+                          final _userDetails = UserDetails(
+                              totalReactions: postUserData.totalReactions + 1);
+                          widget.database.updateUserDetails(_userDetails, DateTime.now().toString());
+                        }
+                      }
+                  ),
+                ],
+              ),
+            ),
+
+
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Column(
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.check,
-                                    color: Colors.greenAccent,
-                                  ),
-                                  Text(
-                                    "Correct",
-                                    style: TextStyle(
-                                        color: Colors.greenAccent,
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15.0),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                correctCount,
-                                style: TextStyle(
-                                    color: Colors.greenAccent,
-                                    fontFamily: 'Montserrat',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 15.0),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Column(
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.close,
-                                    color: Colors.redAccent,
-                                  ),
-                                  Text(
-                                    "Wrong",
-                                    style: TextStyle(
-                                        color: Colors.redAccent,
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15.0),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                wrongCount,
-                                style: TextStyle(
-                                    color: Colors.redAccent,
-                                    fontFamily: 'Montserrat',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 15.0),
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
                       Text(
-                        date,
+                        getDateTime(postData.postAddedDate.seconds),
                         style: descriptionStyleDarkBlur,
                       ),
                     ],
@@ -299,8 +382,4 @@ class _F_MyMediaPageState extends State<F_MyMediaPage> {
       ),
     );
   }
-
-
-
-
 }

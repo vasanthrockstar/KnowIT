@@ -141,16 +141,16 @@ class _F_ProfilePageState extends State<F_ProfilePage> {
                                   Column(
                                     children: <Widget>[
                                       Text("Links",style: descriptionStyleDark),
-                                      Text("01",style: subTitleStyleLight,)
+                                      Text(user.totalLinks.toString(),style: subTitleStyleLight,)
                                     ],
                                   ),
                                   Column(children: <Widget>[
                                     Text("Media",style: descriptionStyleDark),
-                                    Text("02",style: subTitleStyleLight,)
+                                    Text(user.totalMedia.toString(),style: subTitleStyleLight,)
                                   ],),
                                   Column(children: <Widget>[
                                     Text("Reacted",style: descriptionStyleDark),
-                                    Text("03",style: subTitleStyleLight,)
+                                    Text(user.totalReactions.toString(),style: subTitleStyleLight,)
                                   ],),
                                   SizedBox(width: 10,),
                                 ],
@@ -194,7 +194,7 @@ class _F_ProfilePageState extends State<F_ProfilePage> {
                     else{
                       return new Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: new MyReactionsPage(choice: choice),
+                        child: new MyReactionsPage(choice: choice,database: widget.database,),
                       );
                     }
                   }).toList(),

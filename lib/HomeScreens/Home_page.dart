@@ -1,6 +1,4 @@
-
-
-import'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:know_it_master/AuthenticationScreens/SignUp_Screen.dart';
@@ -20,7 +18,6 @@ import 'package:know_it_master/firebase/database.dart';
 import 'package:popup_menu/popup_menu.dart';
 import 'package:provider/provider.dart';
 
-
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -36,7 +33,6 @@ class F_HomePage extends StatefulWidget {
 }
 
 class _F_HomePageState extends State<F_HomePage> {
-
   @override
   Widget build(BuildContext context) {
     return offlineWidget(context);
@@ -93,7 +89,7 @@ class _F_HomePageState extends State<F_HomePage> {
                           children: <Widget>[
                             Padding(
                               padding:
-                              const EdgeInsets.only(bottom: 20, right: 10),
+                                  const EdgeInsets.only(bottom: 20, right: 10),
                               child: CircleAvatar(
                                 child: Text(
                                   user != null ? user.username[0] : '',
@@ -101,7 +97,7 @@ class _F_HomePageState extends State<F_HomePage> {
                                 ),
                                 radius: 25.0,
                                 backgroundColor:
-                                subBackgroundColor.withOpacity(.3),
+                                    subBackgroundColor.withOpacity(.3),
                               ),
                             )
                           ],
@@ -110,8 +106,7 @@ class _F_HomePageState extends State<F_HomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                              MyStatefulWidget(),
+                              builder: (context) => MyStatefulWidget(),
                             ),
                           );
                         }),
@@ -122,7 +117,7 @@ class _F_HomePageState extends State<F_HomePage> {
                           children: <Widget>[
                             Padding(
                               padding:
-                              const EdgeInsets.only(bottom: 20, right: 10),
+                                  const EdgeInsets.only(bottom: 20, right: 10),
                               child: CircleAvatar(
                                 child: Text(
                                   user != null ? user.username[0] : '',
@@ -130,7 +125,7 @@ class _F_HomePageState extends State<F_HomePage> {
                                 ),
                                 radius: 25.0,
                                 backgroundColor:
-                                subBackgroundColor.withOpacity(.3),
+                                    subBackgroundColor.withOpacity(.3),
                               ),
                             )
                           ],
@@ -160,6 +155,7 @@ class _F_HomePageState extends State<F_HomePage> {
                     builder: (context) => AddFeed(
                       database: database,
                       phoneNumber: user.phoneNumber,
+                      totalMediaCount: user.totalMedia,
                     ),
                   ),
                 );
@@ -171,7 +167,7 @@ class _F_HomePageState extends State<F_HomePage> {
               tooltip: 'Add Company',
             ),
             floatingActionButtonLocation:
-            FloatingActionButtonLocation.centerFloat,
+                FloatingActionButtonLocation.centerFloat,
           );
         });
   }
@@ -179,7 +175,7 @@ class _F_HomePageState extends State<F_HomePage> {
 
 showFeed(Database database) {
   return StreamBuilder<List<PostDetails>>(
-    stream: database.readPosts('empty',null, 'empty', null,false),
+    stream: database.readPosts('empty', null, 'empty', null, false),
     builder: (context, postSnapshot) {
       return ListItemsBuilder<PostDetails>(
         snapshot: postSnapshot,
@@ -199,18 +195,7 @@ showFeed(Database database) {
                       children: <Widget>[
                         Column(
                           children: <Widget>[
-                            FeedCard(
-                                postUserData != null ? postUserData.username[0] : '.',
-                                postUserData != null ? postUserData.username : 'fetching...',
-                                postData.postUrl,
-                                postData.postTitle,
-                                postData.postDescription,
-                                postData.postRightCount.toString(),
-                                postData.postWrongCount.toString(),
-                                postData.postImagePath,
-                                getDateTime(postUserData != null ? postData.postAddedDate.seconds : 0),
-                                postData.postType,
-                                context),
+                            FeedCard(postData, postUserData, context, database),
                           ],
                         ),
                         SizedBox(
@@ -227,22 +212,10 @@ showFeed(Database database) {
       );
     },
   );
-
 }
 
-Widget FeedCard(
-    String initial,
-    String name,
-    String weblink,
-    String title,
-    String description,
-    String correctCount,
-    String wrongCount,
-    String imgLink,
-    String date,
-    int postType,
-    BuildContext context
-    ) {
+Widget FeedCard(PostDetails postData, UserDetails postUserData,
+    BuildContext context, Database database) {
   return Card(
     child: Container(
       child: Column(
@@ -260,7 +233,7 @@ Widget FeedCard(
                           children: <Widget>[
                             CircleAvatar(
                               child: Text(
-                                initial,
+                                postUserData.username[0],
                                 style: subTitleStyleLight,
                               ),
                               radius: 25.0,
@@ -274,7 +247,7 @@ Widget FeedCard(
                         Column(
                           children: <Widget>[
                             Text(
-                              name,
+                              postUserData.username,
                               style: subTitleStyle,
                             )
                           ],
@@ -307,89 +280,158 @@ Widget FeedCard(
                     color: Colors.grey[300],
                     borderRadius: BorderRadius.circular(10.0),
                     image: DecorationImage(
-                        image: NetworkImage(imgLink), fit: BoxFit.fill))),
+                        image: NetworkImage(postData.postImagePath),
+                        fit: BoxFit.fill))),
           ),
-          postType == 0 ? Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text(
-              title,
-              style: subTitleStyle,
-              textAlign: TextAlign.start,
-            ),
-          ) : Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: InkWell(
-                child: Text(
-                  weblink,
-                  style: descriptionStyleDarkBlur,
+          postData.postType == 0
+              ? Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    postData.postTitle,
+                    style: subTitleStyle,
+                    textAlign: TextAlign.start,
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: InkWell(
+                      child: Text(
+                        postData.postUrl,
+                        style: descriptionStyleDarkBlur,
+                      ),
+                      onTap: () {}),
                 ),
-                onTap: () {}),
-          ),
-
-          postType == 0 ? Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text(
-              description,
-              style: descriptionStyleDarkBlur,
-              textAlign: TextAlign.start,
-            ),
-          ) : Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text(
-              title,
-              style: subTitleStyle,
-              textAlign: TextAlign.start,
-            ),
-          ),
-
+          postData.postType == 0
+              ? Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    postData.postDescription,
+                    style: descriptionStyleDarkBlur,
+                    textAlign: TextAlign.start,
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    postData.postTitle,
+                    style: subTitleStyle,
+                    textAlign: TextAlign.start,
+                  ),
+                ),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.check,
-                          color: Colors.green,
-                        ),
-                        SizedBox(width: 5,),
-                        Text(
-                          "Correct",
-                          style: TextStyle(
-                              color: Colors.green,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15.0),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      correctCount,
-                      style: TextStyle(
-                          color: Colors.green,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15.0),
-                    ),
-                  ],
+                GestureDetector(
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.check,
+                            color: Colors.green,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "Correct",
+                            style: TextStyle(
+                                color: Colors.green,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 15.0),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        postData.reactedCorrect.length.toString(),
+                        style: TextStyle(
+                            color: Colors.green,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15.0),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+
+                    final reactedCorrect = postData.reactedCorrect;
+                    final reactedWrong = postData.reactedWrong;
+                    final reactedUIDs = postData.reactedIDs;
+
+                    if(postData.reactedIDs.contains(USER_ID)){
+
+                      if(postData.reactedCorrect.contains(USER_ID)){
+                        reactedCorrect.remove(USER_ID);
+                        reactedUIDs.remove(USER_ID);
+
+                        final postEntry = PostDetails(
+                            reactedCorrect: reactedCorrect,
+                            reactedIDs: reactedUIDs);
+
+                        database.updatePostEntry(postEntry, postData.postID);
+
+                        final _userDetails = UserDetails(
+                            totalReactions: postUserData.totalReactions - 1);
+                        database.updateUserDetails(_userDetails, DateTime.now().toString());
+                      }else if(postData.reactedWrong.contains(USER_ID)){
+
+                        reactedCorrect.add(USER_ID);
+                        reactedWrong.remove(USER_ID);
+
+                        final postEntry = PostDetails(
+                            reactedCorrect: reactedCorrect,
+                            reactedIDs: reactedUIDs,
+                            reactedWrong: reactedWrong);
+
+                        database.updatePostEntry(postEntry, postData.postID);
+
+                      }
+                    }else{
+                      reactedCorrect.add(USER_ID);
+                      reactedUIDs.add(USER_ID);
+
+                      final postEntry = PostDetails(
+                          reactedCorrect: reactedCorrect,
+                          reactedIDs: reactedUIDs);
+                      database.updatePostEntry(postEntry, postData.postID);
+
+
+                      final _userDetails = UserDetails(
+                          totalReactions: postUserData.totalReactions + 1);
+                      database.updateUserDetails(_userDetails, DateTime.now().toString());
+                    }
+                  },
                 ),
                 SizedBox(
-                  width:45,
+                  width: 45,
                 ),
-                Column(
-                  children: <Widget>[
-                    Row(
+                GestureDetector(
+                    child: Column(
                       children: <Widget>[
-                        Icon(
-                          Icons.close,
-                          color: Colors.redAccent,
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.close,
+                              color: Colors.redAccent,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "Wrong",
+                              style: TextStyle(
+                                  color: Colors.redAccent,
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15.0),
+                            ),
+                          ],
                         ),
-                        SizedBox(width: 5,),
                         Text(
-                          "Wrong",
+                          postData.reactedWrong.length.toString(),
                           style: TextStyle(
                               color: Colors.redAccent,
                               fontFamily: 'Montserrat',
@@ -398,21 +440,60 @@ Widget FeedCard(
                         ),
                       ],
                     ),
-                    Text(
-                      wrongCount,
-                      style: TextStyle(
-                          color: Colors.redAccent,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15.0),
-                    ),
-                  ],
-                ),
+                    onTap: () {
+
+                      final reactedCorrect = postData.reactedCorrect;
+                      final reactedWrong = postData.reactedWrong;
+                      final reactedUIDs = postData.reactedIDs;
+
+
+                      if(postData.reactedIDs.contains(USER_ID)){
+
+                        if(postData.reactedCorrect.contains(USER_ID)){
+                          reactedCorrect.remove(USER_ID);
+                          reactedWrong.add(USER_ID);
+
+                          final postEntry = PostDetails(
+                              reactedCorrect: reactedCorrect,
+                              reactedIDs: reactedUIDs,
+                          reactedWrong: reactedWrong);
+
+                          database.updatePostEntry(postEntry, postData.postID);
+                        }else if(postData.reactedWrong.contains(USER_ID)){
+
+                          reactedWrong.remove(USER_ID);
+                          reactedUIDs.remove(USER_ID);
+
+                          final postEntry = PostDetails(
+                              reactedIDs: reactedUIDs,
+                              reactedWrong: reactedWrong);
+
+                          database.updatePostEntry(postEntry, postData.postID);
+
+                          final _userDetails = UserDetails(
+                              totalReactions: postUserData.totalReactions - 1);
+                          database.updateUserDetails(_userDetails, DateTime.now().toString());
+
+                        }
+                      }else{
+                        reactedWrong.add(USER_ID);
+                        reactedUIDs.add(USER_ID);
+
+                        final postEntry = PostDetails(
+                            reactedWrong: reactedWrong,
+                            reactedIDs: reactedUIDs);
+
+                        database.updatePostEntry(postEntry, postData.postID);
+
+                        final _userDetails = UserDetails(
+                            totalReactions: postUserData.totalReactions + 1);
+                        database.updateUserDetails(_userDetails, DateTime.now().toString());
+
+                      }
+                    }),
               ],
             ),
           ),
-
-
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(
@@ -421,7 +502,7 @@ Widget FeedCard(
                 Column(
                   children: <Widget>[
                     Text(
-                      date,
+                      getDateTime(postData.postAddedDate.seconds),
                       style: descriptionStyleDarkBlur,
                     ),
                   ],
@@ -433,13 +514,9 @@ Widget FeedCard(
       ),
     ),
   );
-
-
 }
 
-
 showAlertDialog(BuildContext context) {
-
   // set up the list options
   Widget optionOne = SimpleDialogOption(
     child: const Text('horse'),
