@@ -233,22 +233,22 @@ class _F_MyReactionsPageState extends State<F_MyReactionsPage> {
                 ),
               ),
             ),
-            Padding(
+            postData != null ? postData.postTitle == 'not updated' ? Container(height: 0, width: 0,) : Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
                 postData != null ? postData.postTitle == 'not updated' ? '' : postData.postTitle : 'fetching...',
                 style: subTitleStyle,
                 textAlign: TextAlign.start,
               ),
-            ),
-            Padding(
+            ) : null,
+            postData != null ? postData.postDescription == 'not updated' ? Container(height: 0, width: 0,) : Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
                 postData != null ? postData.postDescription == 'not updated' ? '' : postData.postDescription : 'fetching...',
-                style: descriptionStyleDarkBlur,
+                style: descriptionStyle,
                 textAlign: TextAlign.start,
               ),
-            ),
+            ) : null,
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(

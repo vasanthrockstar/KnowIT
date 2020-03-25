@@ -175,8 +175,6 @@ PODS:
     - Reachability
   - connectivity_macos (0.0.1):
     - Flutter
-  - contacts_service (0.2.1):
-    - Flutter
   - Firebase/Auth (6.17.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.4.3)
@@ -319,6 +317,8 @@ PODS:
     - Flutter
   - PromisesObjC (1.2.8)
   - Reachability (3.2)
+  - receive_sharing_intent (0.0.1):
+    - Flutter
   - url_launcher (0.0.1):
     - Flutter
   - url_launcher_macos (0.0.1):
@@ -331,7 +331,6 @@ DEPENDENCIES:
   - cloud_firestore_web (from `.symlinks/plugins/cloud_firestore_web/ios`)
   - connectivity (from `.symlinks/plugins/connectivity/ios`)
   - connectivity_macos (from `.symlinks/plugins/connectivity_macos/ios`)
-  - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_auth_web (from `.symlinks/plugins/firebase_auth_web/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -341,6 +340,7 @@ DEPENDENCIES:
   - flutter_plugin_android_lifecycle (from `.symlinks/plugins/flutter_plugin_android_lifecycle/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
+  - receive_sharing_intent (from `.symlinks/plugins/receive_sharing_intent/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - url_launcher_macos (from `.symlinks/plugins/url_launcher_macos/ios`)
   - url_launcher_web (from `.symlinks/plugins/url_launcher_web/ios`)
@@ -381,8 +381,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/connectivity/ios"
   connectivity_macos:
     :path: ".symlinks/plugins/connectivity_macos/ios"
-  contacts_service:
-    :path: ".symlinks/plugins/contacts_service/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_auth_web:
@@ -401,6 +399,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
+  receive_sharing_intent:
+    :path: ".symlinks/plugins/receive_sharing_intent/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
   url_launcher_macos:
@@ -415,7 +415,6 @@ SPEC CHECKSUMS:
   cloud_firestore_web: 9ec3dc7f5f98de5129339802d491c1204462bfec
   connectivity: 6e94255659cc86dcbef1d452ad3e0491bb1b3e75
   connectivity_macos: e2e9731b6b22dda39eb1b128f6969d574460e191
-  contacts_service: d212985196c101372bb55c42f41dae7be59ab811
   Firebase: 2672e5636b42f977177716317e68346ae5e9de25
   firebase_auth: 1f46484071219159ad6c64d304af425ad7373052
   firebase_auth_web: 0955c07bcc06e84af76b9d4e32e6f31518f2d7de
@@ -447,10 +446,11 @@ SPEC CHECKSUMS:
   permission_handler: 67637977b227d62d46bfbf524f335f8568de5a73
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  receive_sharing_intent: c0d87310754e74c0f9542947e7cbdf3a0335a3b1
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
 
 PODFILE CHECKSUM: 1b66dae606f75376c5f2135a8290850eeb09ae83
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.0.beta.3

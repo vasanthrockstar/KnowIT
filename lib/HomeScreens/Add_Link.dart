@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,6 +18,7 @@ import 'package:link/link.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:know_it_master/firebase/database.dart';
+import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
 class AddLink extends StatelessWidget {
   AddLink({@required this.database, @required this.phoneNumber, @required this.totalMediaCount});
@@ -54,6 +56,10 @@ class _F_AddLinkState extends State<F_AddLink> {
   StorageUploadTask _uploadTask;
   String _profilePicPathURL;
 
+  StreamSubscription _intentDataStreamSubscription;
+  List<SharedMediaFile> _sharedFiles;
+  String _sharedText;
+
   bool _loading;
   double _progressValue;
 
@@ -62,7 +68,32 @@ class _F_AddLinkState extends State<F_AddLink> {
     super.initState();
     _loading = false;
     _progressValue = 0.0;
+
+    // For sharing images coming from outside the app while the app is in the memory
+    _intentDataStreamSubscription =
+        ReceiveSharingIntent.getMediaStream().listen((List<SharedMediaFile> value) {
+          setState(() {
+            print("Shared:" + (_sharedFiles?.map((f)=> f.path)?.join(",") ?? ""));
+            _sharedFiles = value;
+          });
+        }, onError: (err) {
+          print("getIntentDataStream error: $err");
+        });
+
+    // For sharing images coming from outside the app while the app is closed
+    ReceiveSharingIntent.getInitialMedia().then((List<SharedMediaFile> value) {
+      setState(() {
+        _sharedFiles = value;
+      });
+    });
   }
+
+  @override
+  void dispose() {
+    _intentDataStreamSubscription.cancel();
+    super.dispose();
+  }
+
 
 
   bool _validateAndSaveForm(){
@@ -264,7 +295,7 @@ class _F_AddLinkState extends State<F_AddLink> {
       SizedBox(height: 10,),
 
       Link(
-        child: Text('https://pub.dev/packages/link',style: urlTextStyle,),
+        child: Text('https://pub.dev/packages/link',style: TextStyle(color: subBackgroundColor,decoration: TextDecoration.underline,),),
         url: 'https://flutter.dev',
         onError: _showErrorSnackBar,
       ),

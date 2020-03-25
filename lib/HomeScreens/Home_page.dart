@@ -121,6 +121,8 @@ class _F_HomePageState extends State<F_HomePage> {
                             ),
                           );
                         } ),
+
+
                     GestureDetector(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -145,7 +147,7 @@ class _F_HomePageState extends State<F_HomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MyStatefulWidget( ),
+                              builder: (context) => AddLink(database: database,),
                             ),
                           );
                         } ),
