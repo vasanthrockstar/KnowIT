@@ -27,7 +27,7 @@ dependencies:
   flutter_offline: ^0.3.0
   flutter_cupertino_date_picker: ^1.0.12
   intl: ^0.16.1
-
+  link: ^1.1.0
   firebase_auth: 0.15.4
   cloud_firestore: 0.13.4
   firebase_storage: 3.1.3

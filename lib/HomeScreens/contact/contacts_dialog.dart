@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 
 /// selection dialog used for selection of the country code
 class SelectionDialogContacts extends StatefulWidget {
+
   final List<Contact> elements;
   final bool showCountryOnly;
   final InputDecoration searchDecoration;
   final TextStyle searchStyle;
   final WidgetBuilder emptySearchBuilder;
 
+
+
+
   /// elements passed as favorite
   final List<Contact> favoriteElements;
-
   SelectionDialogContacts(this.elements, this.favoriteElements, {
     Key key,
     this.showCountryOnly,
@@ -30,6 +33,7 @@ class SelectionDialogContacts extends StatefulWidget {
 class _SelectionDialogState extends State<SelectionDialogContacts> {
   /// this is useful for filtering purpose
   List<Contact> filteredElements;
+
 
   @override
   Widget build(BuildContext context) => SimpleDialog(
@@ -79,27 +83,17 @@ class _SelectionDialogState extends State<SelectionDialogContacts> {
     ],
   );
 
+  var arr= [];
+
   Widget _buildOption(Contact e) {
     return Container(
       width: 400,
       child: Row(
         //direction: Axis.horizontal,
         mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Flexible(
-            child: (e.avatar != null && e.avatar.length > 0)
-                ? CircleAvatar(backgroundImage: MemoryImage(e.avatar))
-                : CircleAvatar(child: Text(e.initials())),
-          ),
-          SizedBox(width: 15.0),
-          Expanded(
-            flex: 4,
-            child: Text(
-              e.displayName,
-              overflow: TextOverflow.fade,
-            ),
-          ),
-        ],
+
+        children: e.phones.map((item) => arr.add(item.value)),
+
       ),
     );
   }

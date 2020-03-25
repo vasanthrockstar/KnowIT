@@ -13,36 +13,35 @@ import 'package:know_it_master/common_widgets/button_widget/to_do_button.dart';
 import 'package:know_it_master/common_widgets/custom_appbar_widget/custom_app_bar.dart';
 import 'package:know_it_master/common_widgets/offline_widgets/offline_widget.dart';
 import 'package:know_it_master/common_widgets/platform_alert/platform_exception_alert_dialog.dart';
-
+import 'package:link/link.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:know_it_master/firebase/database.dart';
-import 'package:platform_action_sheet/platform_action_sheet.dart';
 
-class AddFeed extends StatelessWidget {
-  AddFeed({@required this.database, @required this.phoneNumber, @required this.totalMediaCount});
+class AddLink extends StatelessWidget {
+  AddLink({@required this.database, @required this.phoneNumber, @required this.totalMediaCount});
   Database database;
   String phoneNumber;
   int totalMediaCount;
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: F_AddFeed(database: database, phoneNumber:phoneNumber, totalMediaCount: totalMediaCount,),
+      child: F_AddLink(database: database, phoneNumber:phoneNumber),
     );
   }
 }
 
-class F_AddFeed extends StatefulWidget {
-  F_AddFeed({@required this.database, @required this.phoneNumber, @required this.totalMediaCount});
+class F_AddLink extends StatefulWidget {
+  F_AddLink({@required this.database, @required this.phoneNumber, @required this.totalMediaCount});
   Database database;
   String phoneNumber;
   int totalMediaCount;
 
   @override
-  _F_AddFeedState createState() => _F_AddFeedState();
+  _F_AddLinkState createState() => _F_AddLinkState();
 }
 
-class _F_AddFeedState extends State<F_AddFeed> {
+class _F_AddLinkState extends State<F_AddLink> {
 
   File _postPic;
   String _postTitle;
@@ -105,8 +104,8 @@ class _F_AddFeedState extends State<F_AddFeed> {
           postAddedByUid: USER_ID,
           postAddedByPhoneNumber: widget.phoneNumber.substring(3),
           postImagePath: imagePath,
-          postTitle: _postTitle == null ? 'not updated' : _postTitle,
-          postDescription: _postDescription == null ? 'not updated' : _postDescription,
+          postTitle: _postTitle,
+          postDescription: _postDescription,
           postUrl: 'not updated',
           postType: 0, //0 for image type, 1 for link type
           postViewCount: 0,
@@ -119,9 +118,10 @@ class _F_AddFeedState extends State<F_AddFeed> {
         );
 
         await widget.database.setPostEntry(_postEntry, DateTime.now().toString());
+
         final _userDetails = UserDetails(
             totalMedia: widget.totalMediaCount + 1);
-        await widget.database.updateUserDetails(_userDetails, USER_ID);
+        await widget.database.updateUserDetails(_userDetails, DateTime.now().toString());
 
         Navigator.of(context).pop();
       }on PlatformException catch (e){
@@ -281,72 +281,12 @@ class _F_AddFeedState extends State<F_AddFeed> {
         keyboardAppearance: Brightness.dark,
       ),
       SizedBox(height: 20,),
-      GestureDetector(
-        child: _postPic == null ? Container(
-          height: 150,
-          decoration: BoxDecoration(
-            color: Colors.grey[100],
-            border: Border.all(
-              width: 0.5, //
-            ),
-            shape: BoxShape.rectangle,
-            borderRadius: new BorderRadius.circular(10.0),
-          ),
-
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text("Add Image",style: subTitleStyle,),
-              Icon(Icons.add_photo_alternate,size: 40,)
-            ],
-          ),
-        ) : Container(
-          height: 150,
-          decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(5.0),
-              image: DecorationImage(
-                image: FileImage(_postPic),  // here add your image file path
-                fit: BoxFit.fill,
-              )),
+      Center(
+        child: Link(
+          child: Text('https://pub.dev/packages/link',style: TextStyle(color: subBackgroundColor,decoration: TextDecoration.underline,),),
+          url: 'https://flutter.dev',
+          onError: _showErrorSnackBar,
         ),
-        onTap: (){
-
-          PlatformActionSheet().displaySheet(
-              context: context,
-              title:
-              Text('Please select the media source.',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'Montserrat-Regular',
-                  fontWeight: FontWeight.w500,
-                  fontSize: 17.0,
-                ),
-              ),
-              actions: [
-              ActionSheetAction(
-                  text: "Camera",
-                  onPressed: () {
-                    _captureImage(ImageSource.camera);
-                    Navigator.pop(context);
-                  },
-                  hasArrow: true,
-                ),
-                ActionSheetAction(
-                  text: "Gallery",
-                  onPressed: () {
-                    _captureImage(ImageSource.gallery);
-                    Navigator.pop(context);
-                  },
-                ),
-                ActionSheetAction(
-                  text: "Cancel",
-                  onPressed: () => Navigator.pop(context),
-                  isCancel: true,
-                  defaultAction: true,
-                )
-              ]);
-        },
       ),
       SizedBox(height: 20,),
       TextField(
@@ -373,9 +313,16 @@ class _F_AddFeedState extends State<F_AddFeed> {
       ),
     ];
   }
+  void _showErrorSnackBar() {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Oops... the URL couldn\'t be opened!'),
+      ),
+    );
+  }
 
-  Future<void> _captureImage(ImageSource imageSource) async {
-    File profileImage = await ImagePicker.pickImage(source: imageSource);
+  Future<void> _captureImage() async {
+    File profileImage = await ImagePicker.pickImage(source: IMAGE_SOURCE);
     setState(() {
       _postPic = profileImage;
       print(_postPic);
