@@ -46,15 +46,21 @@ class _F_HomePageState extends State<F_HomePage> {
   List<SharedMediaFile> _sharedFiles;
   String _sharedText;
 
+  var database;
+
+
   @override
   void initState() {
     super.initState();
+
+    database = Provider.of<Database>( context, listen: false );
 
     // For sharing or opening urls/text coming from outside the app while the app is in the memory
     _intentDataStreamSubscription =
         ReceiveSharingIntent.getTextStream().listen((String value) {
           setState(() {
             _sharedText = value;
+            _sharedText != null ? GoToPage(context, AddLink(database: database,url: _sharedText)) : null;
             print("Shared: $_sharedText");
           });
         }, onError: (err) {
@@ -65,7 +71,7 @@ class _F_HomePageState extends State<F_HomePage> {
     ReceiveSharingIntent.getInitialText().then((String value) {
       setState(() {
         _sharedText = value;
-        _sharedText != null ? GoToPage(context, AddLink(database: database,url: _sharedText, phoneNumber: "8333876209",totalLinkCount: 1,)) : null;
+        _sharedText != null ? GoToPage(context, AddLink(database: database,url: _sharedText)) : null;
         print("Shared: $_sharedText");
       });
     });
@@ -96,19 +102,12 @@ class _F_HomePageState extends State<F_HomePage> {
     );
   }
 
-  var database;
   Widget _buildContent(BuildContext context) {
-    database = Provider.of<Database>( context, listen: false );
 
     return StreamBuilder<UserDetails>(
         stream: database.readUser(USER_ID),
         builder: (context, snapshot) {
           final user = snapshot.data;
-print(_sharedText);
-//          _sharedText='ff';
-
-//          _sharedText != null ? GoToPage(context, AddLink(database: database,url: _sharedText, phoneNumber: user.phoneNumber != null ? user.phoneNumber:'not updated',totalLinkCount: user.totalLinks,)) : null;
-          print(_sharedText);
           PopupMenu.context = context;
           return Scaffold(
             appBar: PreferredSize(

@@ -51,6 +51,7 @@ class _F_AddLinkState extends State<F_AddLink> {
   String _postTitle;
   String _postDescription;
 
+
   final _formKey = GlobalKey<FormState>();
 
 
@@ -63,7 +64,7 @@ class _F_AddLinkState extends State<F_AddLink> {
     return false;
   }
 
-  Future<void> _submit() async{
+  Future<void> _submit(  String phoneNumber, int linkCount) async{
     if(_validateAndSaveForm()) {
       var date = Timestamp.fromDate(DateTime.now());
       try{
@@ -72,7 +73,7 @@ class _F_AddLinkState extends State<F_AddLink> {
           postIsDeleted: false,
           postAddedDate: date,
           postAddedByUid: USER_ID,
-          postAddedByPhoneNumber: widget.phoneNumber,
+          postAddedByPhoneNumber: phoneNumber,
           postImagePath: 'not updated',
           postTitle: _postTitle,
           postDescription: _postDescription,
@@ -90,7 +91,7 @@ class _F_AddLinkState extends State<F_AddLink> {
         await widget.database.setPostEntry(_postEntry, date.toString());
 
         final _userDetails = UserDetails(
-            totalMedia: widget.totalLinkCount + 1);
+            totalMedia: linkCount + 1);
         await widget.database.updateUserDetails(_userDetails, USER_ID);
 
         Navigator.of(context).pop();
@@ -167,15 +168,23 @@ class _F_AddLinkState extends State<F_AddLink> {
 
   Widget _buildPageContent(BuildContext context) {
 
-      return Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: ToDoButton(
-          assetName: 'images/googl-logo.png',
-          text: 'Post',
-          textColor: subBackgroundColor,
-          backgroundColor: backgroundColor,
-          onPressed: _submit,
-        ),
+    return StreamBuilder<UserDetails>(
+        stream: widget.database.readUser(USER_ID),
+        builder: (context, snapshot) {
+          final user = snapshot.data;
+          return Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: ToDoButton(
+              assetName: 'images/googl-logo.png',
+              text: 'Post',
+              textColor: subBackgroundColor,
+              backgroundColor: backgroundColor,
+              onPressed: (){
+                _submit(user.phoneNumber, user.totalLinks);
+              },
+            ),
+          );
+        }
       );
   }
 
