@@ -16,6 +16,7 @@ class CustomAppBar extends StatelessWidget {
         this.tabBarWidget,
         this.profile,
         this.color,
+        this.brightness,
 });
 
   final Widget leftActionBar;
@@ -27,6 +28,7 @@ class CustomAppBar extends StatelessWidget {
   final Widget tabBarWidget;
   final Widget profile;
   final Widget color;
+  final Widget brightness;
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +98,7 @@ class CustomAppBar extends StatelessWidget {
         tabBarWidget == null ? Container(height: 0,width: 0,) :tabBarWidget,
 
 
+
       ],
 
     ),
@@ -104,3 +107,6 @@ class CustomAppBar extends StatelessWidget {
 
 
 }
+
+
+

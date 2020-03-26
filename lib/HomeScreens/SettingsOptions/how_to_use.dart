@@ -40,7 +40,7 @@ class _F_HowToUse extends State<F_HowToUse> {
   Widget _buildContent(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(120),
+        preferredSize: Size.fromHeight(130),
         //preferredSize : Size(double.infinity, 100),
         child: CustomAppBar(
           leftActionBar: Container(

@@ -174,7 +174,7 @@ class _F_AddLinkState extends State<F_AddLink> {
         resizeToAvoidBottomPadding: false,
         appBar:
         PreferredSize(
-          preferredSize: Size.fromHeight(110),
+          preferredSize: Size.fromHeight(130),
           child: CustomAppBar(
             leftActionBar: Container(
               child: Icon(Icons.arrow_back, size: 40,color: Colors.white70,),

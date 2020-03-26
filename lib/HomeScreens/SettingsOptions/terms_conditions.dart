@@ -41,7 +41,7 @@ class _F_TermsAndServices extends State<F_TermsAndServices> {
   Widget _buildContent(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(120),
+        preferredSize: Size.fromHeight(130),
         //preferredSize : Size(double.infinity, 100),
         child: CustomAppBar(
           leftActionBar: Container(
