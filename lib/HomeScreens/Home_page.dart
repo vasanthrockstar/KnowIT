@@ -65,9 +65,11 @@ class _F_HomePageState extends State<F_HomePage> {
     ReceiveSharingIntent.getInitialText().then((String value) {
       setState(() {
         _sharedText = value;
+        _sharedText != null ? GoToPage(context, AddLink(database: database,url: _sharedText, phoneNumber: "8333876209",totalLinkCount: 1,)) : null;
         print("Shared: $_sharedText");
       });
     });
+
 
   }
 
@@ -102,8 +104,11 @@ class _F_HomePageState extends State<F_HomePage> {
         stream: database.readUser(USER_ID),
         builder: (context, snapshot) {
           final user = snapshot.data;
-          _sharedText != null ? GoToPage(context, AddLink(database: database,url: _sharedText, phoneNumber: user.phoneNumber != null ? user.phoneNumber:'not updated',totalLinkCount: user.totalLinks,)) : null;
+print(_sharedText);
+//          _sharedText='ff';
 
+//          _sharedText != null ? GoToPage(context, AddLink(database: database,url: _sharedText, phoneNumber: user.phoneNumber != null ? user.phoneNumber:'not updated',totalLinkCount: user.totalLinks,)) : null;
+          print(_sharedText);
           PopupMenu.context = context;
           return Scaffold(
             appBar: PreferredSize(
