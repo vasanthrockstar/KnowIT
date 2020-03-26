@@ -172,7 +172,7 @@ class _F_AddLinkState extends State<F_AddLink> {
   }
 
   Widget offlineWidget(BuildContext context) {
-    return SingleChildScrollView(
+    return Center(
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
         appBar:

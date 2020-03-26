@@ -40,14 +40,14 @@ class _F_HowToUse extends State<F_HowToUse> {
   Widget _buildContent(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(140),
+        preferredSize: Size.fromHeight(120),
         //preferredSize : Size(double.infinity, 100),
         child: CustomAppBar(
           leftActionBar: Container(
             child: Icon(
               Icons.arrow_back,
               size: 40,
-              color: Colors.black38,
+              color: Colors.white70,
             ),
           ),
           leftAction: () {

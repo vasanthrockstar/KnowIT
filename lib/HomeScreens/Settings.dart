@@ -63,7 +63,7 @@ class _F_SettingsPageState extends State<F_SettingsPage> {
 
           appBar:
           PreferredSize(
-            preferredSize: Size.fromHeight(100),
+            preferredSize: Size.fromHeight(120),
             child: CustomAppBar(
               leftActionBar: Container(
                 child: Icon(

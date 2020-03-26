@@ -93,35 +93,6 @@ class _F_HomePageState extends State<F_HomePage> {
                         ),
                       ],
                     ),
-                    GestureDetector(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Padding(
-                              padding:
-                              const EdgeInsets.only( bottom: 20, right: 10 ),
-                              child: CircleAvatar(
-                                child: Text(
-                                  'Lin',
-                                  style: subTitleStyleLight,
-                                ),
-                                radius: 25.0,
-                                backgroundColor:
-                                subBackgroundColor.withOpacity( .3 ),
-                              ),
-                            )
-                          ],
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AddLink( ),
-                            ),
-                          );
-                        } ),
-
 
                     GestureDetector(
                         child: Column(
@@ -130,13 +101,13 @@ class _F_HomePageState extends State<F_HomePage> {
                           children: <Widget>[
                             Padding(
                               padding:
-                              const EdgeInsets.only( bottom: 20, right: 10 ),
+                              const EdgeInsets.only( bottom: 15, ),
                               child: CircleAvatar(
                                 child: Text(
-                                  user != null ? user.username[0] : '...',
+                                  "Lin",
                                   style: subTitleStyleLight,
                                 ),
-                                radius: 25.0,
+                                radius: 20.0,
                                 backgroundColor:
                                 subBackgroundColor.withOpacity( .3 ),
                               ),
@@ -158,13 +129,13 @@ class _F_HomePageState extends State<F_HomePage> {
                           children: <Widget>[
                             Padding(
                               padding:
-                              const EdgeInsets.only( bottom: 20, right: 10 ),
+                              const EdgeInsets.only( bottom: 15, right: 10 ),
                               child: CircleAvatar(
                                 child: Text(
                                   user != null ? user.username[0] : '...',
                                   style: subTitleStyleLight,
                                 ),
-                                radius: 25.0,
+                                radius: 20.0,
                                 backgroundColor:
                                 subBackgroundColor.withOpacity( .3 ),
                               ),

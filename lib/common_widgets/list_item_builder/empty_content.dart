@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:know_it_master/common_variables/app_colors.dart';
 
 class EmptyContent extends StatelessWidget {
 
@@ -10,25 +11,27 @@ class EmptyContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Icon(
-              Icons.inbox,
-              color: Colors.blueGrey,
-              size: 80.0,
-            ),
-            SizedBox(height: 20.0,),
+    return SingleChildScrollView(
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(
+                Icons.inbox,
+                color: backgroundColor,
+                size: 80.0,
+              ),
+              SizedBox(height: 20.0,),
 
-            Text(title, style: TextStyle(fontSize: 30.0, color: Colors.blueGrey),
-            ),
-            SizedBox(height: 10.0,),
-            Text(message, style: TextStyle(fontSize: 18.0, color: Colors.blueGrey,fontWeight: FontWeight.w600),
-            )
-          ],
+              Text(title, style: TextStyle(fontSize: 30.0, color: backgroundColor),
+              ),
+              SizedBox(height: 10.0,),
+              Text(message, style: TextStyle(fontSize: 18.0, color: subBackgroundColor,fontWeight: FontWeight.w600),
+              )
+            ],
+          ),
         ),
       ),
     );

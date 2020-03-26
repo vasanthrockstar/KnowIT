@@ -145,7 +145,7 @@ class _F_AddFeedState extends State<F_AddFeed> {
       resizeToAvoidBottomPadding: false,
       appBar:
       PreferredSize(
-        preferredSize: Size.fromHeight(100),
+        preferredSize: Size.fromHeight(130),
         child: CustomAppBar(
           leftActionBar: Container(
             child: Icon(Icons.arrow_back, size: 40,color: Colors.white70,),
@@ -228,29 +228,6 @@ class _F_AddFeedState extends State<F_AddFeed> {
           onPressed: _imageUpload,
         ),
       );
-//    AnimatedButton(
-//        onTap: _imageUpload,
-//        animationDuration: const Duration(milliseconds: 1000),
-//        initialText: "Post",
-//        finalText: "Feed Added",
-//        iconData: Icons.check,
-//        iconSize: 30.0,
-//        buttonStyle: ButtonStyle(
-//          primaryColor: backgroundColor,
-//          secondaryColor: Colors.white,
-//          elevation: 10.0,
-//          initialTextStyle: TextStyle(
-//            fontSize: 20.0,
-//            color: subBackgroundColor,
-//          ),
-//          finalTextStyle: TextStyle(
-//            fontSize: 20.0,
-//            color: backgroundColor,
-//          ),
-//          borderRadius: 10.0,
-//        ),
-//
-//      );
     }
   }
 

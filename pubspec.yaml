@@ -65,6 +65,7 @@ flutter:
     - images/concert.jpg
     - images/jake.jpg
     - images/music.jpg
+    - images/no_internet.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
