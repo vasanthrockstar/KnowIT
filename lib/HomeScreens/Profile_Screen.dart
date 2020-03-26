@@ -197,7 +197,7 @@ class _F_ProfilePageState extends State<F_ProfilePage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ShowMediaPage() ),
+                                    builder: (context) => ShowMediaPage(database: widget.database,) ),
                               );
                             }
                           ),

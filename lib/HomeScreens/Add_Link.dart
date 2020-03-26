@@ -21,23 +21,20 @@ import 'package:know_it_master/firebase/database.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
 class AddLink extends StatelessWidget {
-  AddLink({@required this.database, @required this.phoneNumber, @required this.totalMediaCount});
+  AddLink({@required this.database,});
   Database database;
-  String phoneNumber;
-  int totalMediaCount;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: F_AddLink(database: database, phoneNumber:phoneNumber),
+      child: F_AddLink(database: database),
     );
   }
 }
 
 class F_AddLink extends StatefulWidget {
-  F_AddLink({@required this.database, @required this.phoneNumber, @required this.totalMediaCount});
+  F_AddLink({@required this.database});
   Database database;
-  String phoneNumber;
-  int totalMediaCount;
 
   @override
   _F_AddLinkState createState() => _F_AddLinkState();
@@ -133,7 +130,7 @@ class _F_AddLinkState extends State<F_AddLink> {
           postIsDeleted: false,
           postAddedDate: Timestamp.fromDate(DateTime.now()),
           postAddedByUid: USER_ID,
-          postAddedByPhoneNumber: widget.phoneNumber.substring(3),
+          postAddedByPhoneNumber: '',
           postImagePath: imagePath,
           postTitle: _postTitle,
           postDescription: _postDescription,
@@ -151,7 +148,7 @@ class _F_AddLinkState extends State<F_AddLink> {
         await widget.database.setPostEntry(_postEntry, DateTime.now().toString());
 
         final _userDetails = UserDetails(
-            totalMedia: widget.totalMediaCount + 1);
+            totalMedia: 1);
         await widget.database.updateUserDetails(_userDetails, DateTime.now().toString());
 
         Navigator.of(context).pop();
