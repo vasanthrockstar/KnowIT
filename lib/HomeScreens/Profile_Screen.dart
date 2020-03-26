@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:know_it_master/Database_models/UserDetails.dart';
-import 'package:know_it_master/HomeScreens/ProfileScreen2.dart';
+import 'package:know_it_master/HomeScreens/ShoeMediaPage.dart';
 import 'package:know_it_master/common_variables/app_colors.dart';
 import 'package:know_it_master/common_variables/app_fonts.dart';
 import 'package:know_it_master/common_variables/app_functions.dart';
@@ -100,6 +100,8 @@ class _F_ProfilePageState extends State<F_ProfilePage> {
     return StreamBuilder<UserDetails>(
         stream: widget.database.readUser(USER_ID),
         builder: (context, snapshot) {
+          print('get contacts 2${CONTACT_NUMBERS}');
+
           final user = snapshot.data;
           PopupMenu.context = context;
           return new MaterialApp(

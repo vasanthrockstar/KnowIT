@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_contact/contacts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:know_it_master/Database_models/PostDetails.dart';
 import 'package:know_it_master/Database_models/UserDetails.dart';
@@ -58,13 +59,18 @@ class _F_AddFeedState extends State<F_AddFeed> {
   bool _loading;
   double _progressValue;
 
+
+  List<String> CountryCode = new List();
+  List<String> ContactNumber = new List();
+  List<String> Name = new List();
+
   @override
   void initState() {
     super.initState();
     _loading = false;
     _progressValue = 0.0;
+    print(getAllContacts());
   }
-
 
   bool _validateAndSaveForm(){
     final form = _formKey.currentState;

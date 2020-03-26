@@ -9,6 +9,7 @@ import 'firebase/auth.dart';
 import 'firebase/database.dart';
 
 class LandingPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
@@ -17,6 +18,8 @@ class LandingPage extends StatelessWidget {
       stream: auth.onAuthStateChanges,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
+          CONTACT_NUMBERS.clear();
+          getAllContacts();
           User user = snapshot.data;
           if (user == null) {
             return LoginPage.create(context);

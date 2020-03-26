@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,6 +21,7 @@ import 'package:link/link.dart';
 import 'package:popup_menu/popup_menu.dart';
 import 'package:provider/provider.dart';
 import 'package:platform_action_sheet/platform_action_sheet.dart';
+import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
 import 'Add_Link.dart';
 
@@ -38,6 +41,42 @@ class F_HomePage extends StatefulWidget {
 }
 
 class _F_HomePageState extends State<F_HomePage> {
+
+  StreamSubscription _intentDataStreamSubscription;
+  List<SharedMediaFile> _sharedFiles;
+  String _sharedText;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // For sharing or opening urls/text coming from outside the app while the app is in the memory
+    _intentDataStreamSubscription =
+        ReceiveSharingIntent.getTextStream().listen((String value) {
+          setState(() {
+            _sharedText = value;
+            print("Shared: $_sharedText");
+          });
+        }, onError: (err) {
+          print("getLinkStream error: $err");
+        });
+
+    // For sharing or opening urls/text coming from outside the app while the app is closed
+    ReceiveSharingIntent.getInitialText().then((String value) {
+      setState(() {
+        _sharedText = value;
+        print("Shared: $_sharedText");
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _intentDataStreamSubscription.cancel();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return offlineWidget( context );
@@ -58,7 +97,7 @@ class _F_HomePageState extends State<F_HomePage> {
     final database = Provider.of<Database>( context, listen: false );
 
     return StreamBuilder<UserDetails>(
-        stream: database.readUser( USER_ID ),
+        stream: database.readUser(USER_ID),
         builder: (context, snapshot) {
           final user = snapshot.data;
           PopupMenu.context = context;
@@ -456,8 +495,7 @@ class _F_HomePageState extends State<F_HomePage> {
 
                           final _userDetails = UserDetails(
                               totalReactions: postUserData.totalReactions - 1 );
-                          database.updateUserDetails( _userDetails, DateTime
-                              .now( ).toString( ) );
+                          database.updateUserDetails( _userDetails, USER_ID);
                         } else if (postData.reactedWrong.contains( USER_ID )) {
                           reactedCorrect.add( USER_ID );
                           reactedWrong.remove( USER_ID );
@@ -486,7 +524,7 @@ class _F_HomePageState extends State<F_HomePage> {
                         final _userDetails = UserDetails(
                             totalReactions: postUserData.totalReactions + 1 );
                         database.updateUserDetails(
-                            _userDetails, DateTime.now( ).toString( ) );
+                            _userDetails, USER_ID);
                       }
                     },
                   ),
@@ -564,8 +602,7 @@ class _F_HomePageState extends State<F_HomePage> {
                             final _userDetails = UserDetails(
                                 totalReactions: postUserData.totalReactions -
                                     1 );
-                            database.updateUserDetails( _userDetails, DateTime
-                                .now( ).toString( ) );
+                            database.updateUserDetails( _userDetails, USER_ID);
                           }
                         } else {
                           reactedWrong.add( USER_ID );
@@ -582,7 +619,7 @@ class _F_HomePageState extends State<F_HomePage> {
                           final _userDetails = UserDetails(
                               totalReactions: postUserData.totalReactions + 1 );
                           database.updateUserDetails(
-                              _userDetails, DateTime.now( ).toString( ) );
+                              _userDetails,USER_ID);
                         }
                       } ),
                 ],

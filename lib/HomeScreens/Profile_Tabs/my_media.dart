@@ -295,7 +295,7 @@ class _F_MyMediaPageState extends State<F_MyMediaPage> {
 
                           final _userDetails = UserDetails(
                               totalReactions: postUserData.totalReactions - 1);
-                          widget.database.updateUserDetails(_userDetails, DateTime.now().toString());
+                          widget.database.updateUserDetails(_userDetails, USER_ID);
                         }else if(postData.reactedWrong.contains(USER_ID)){
 
                           reactedCorrect.add(USER_ID);
@@ -321,7 +321,7 @@ class _F_MyMediaPageState extends State<F_MyMediaPage> {
 
                         final _userDetails = UserDetails(
                             totalReactions: postUserData.totalReactions + 1);
-                        widget.database.updateUserDetails(_userDetails, DateTime.now().toString());
+                        widget.database.updateUserDetails(_userDetails, USER_ID);
                       }
                     },
                   ),
@@ -390,7 +390,7 @@ class _F_MyMediaPageState extends State<F_MyMediaPage> {
 
                             final _userDetails = UserDetails(
                                 totalReactions: postUserData.totalReactions - 1);
-                            widget.database.updateUserDetails(_userDetails, DateTime.now().toString());
+                            widget.database.updateUserDetails(_userDetails,USER_ID);
 
                           }
                         }else{
@@ -405,7 +405,7 @@ class _F_MyMediaPageState extends State<F_MyMediaPage> {
 
                           final _userDetails = UserDetails(
                               totalReactions: postUserData.totalReactions + 1);
-                          widget.database.updateUserDetails(_userDetails, DateTime.now().toString());
+                          widget.database.updateUserDetails(_userDetails, USER_ID);
                         }
                       }
                   ),

@@ -12,7 +12,6 @@ import 'package:know_it_master/common_widgets/offline_widgets/offline_widget.dar
 import 'package:know_it_master/firebase/database.dart';
 import 'categories_tab.dart';
 
-
 class ShowMediaPage extends StatelessWidget {
   ShowMediaPage({@required this.database});
   Database database;
@@ -20,7 +19,9 @@ class ShowMediaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: F_ShowMediaPage(database: database,),
+      child: F_ShowMediaPage(
+        database: database,
+      ),
     );
   }
 }
@@ -34,7 +35,6 @@ class F_ShowMediaPage extends StatefulWidget {
 }
 
 class _F_ShowMediaPageState extends State<F_ShowMediaPage> {
-
   TextStyle selectedLabel = new TextStyle(
       color: Color(0xFF1F4B6E),
       fontFamily: 'Quicksand',
@@ -73,47 +73,55 @@ class _F_ShowMediaPageState extends State<F_ShowMediaPage> {
             home: new DefaultTabController(
               length: categories.length,
               child: new Scaffold(
-              appBar: new PreferredSize(
-              preferredSize: Size.fromHeight(kToolbarHeight),
-          child: new Container(
-          color: backgroundColor,
-          child: new SafeArea(
-          child: Column(
-          children: <Widget>[
-          new    TabBar(
-          indicatorColor: subBackgroundColor,
-          labelColor: Colors.white,
-          labelStyle: selectedLabel,
-          unselectedLabelStyle: unselectedLabel,
-          isScrollable: true,
-          tabs: categories.map((Category choice) {
-          return new Tab(
-          text: choice.name,
-          );
-          }).toList(),
-          ),
-          ],
-          ),
-          ),
-          ),
-          ),
+                appBar: new PreferredSize(
+                  preferredSize: Size.fromHeight(kToolbarHeight),
+                  child: new Container(
+                    color: backgroundColor,
+                    child: new SafeArea(
+                      child: Column(
+                        children: <Widget>[
+                          new TabBar(
+                            indicatorColor: subBackgroundColor,
+                            labelColor: Colors.white,
+                            labelStyle: selectedLabel,
+                            unselectedLabelStyle: unselectedLabel,
+                            isScrollable: true,
+                            tabs: categories.map((Category choice) {
+                              return new Tab(
+                                text: choice.name,
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
                 body: new TabBarView(
                   children: categories.map((Category choice) {
                     if (choice.name == 'My Links') {
                       return new Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: new MyLinksPage(choice: choice, database: widget.database,),
+                        child: new MyLinksPage(
+                          choice: choice,
+                          database: widget.database,
+                        ),
                       );
                     } else if (choice.name == 'My Media') {
                       return new Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: new MyMediaPage(choice: choice, database: widget.database,),
+                        child: new MyMediaPage(
+                          choice: choice,
+                          database: widget.database,
+                        ),
                       );
-                    }
-                    else{
+                    } else {
                       return new Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: new MyReactionsPage(choice: choice,database: widget.database,),
+                        child: new MyReactionsPage(
+                          choice: choice,
+                          database: widget.database,
+                        ),
                       );
                     }
                   }).toList(),
@@ -128,10 +136,13 @@ class _F_ShowMediaPageState extends State<F_ShowMediaPage> {
                     new FloatingActionButton(
                       elevation: 90,
                       backgroundColor: backgroundColor,
-                      child: new Icon(Icons.arrow_back,color: subBackgroundColor,),
+                      child: new Icon(
+                        Icons.arrow_back,
+                        color: subBackgroundColor,
+                      ),
                       onPressed: () {
-                  Navigator.pop(context, true);
-                    },
+                        Navigator.pop(context, true);
+                      },
                     ),
                     new Padding(
                       padding: new EdgeInsets.symmetric(
@@ -143,7 +154,6 @@ class _F_ShowMediaPageState extends State<F_ShowMediaPage> {
               ),
             ),
           );
-        }
-    );
+        });
   }
 }
