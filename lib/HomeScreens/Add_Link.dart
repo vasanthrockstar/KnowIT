@@ -78,7 +78,7 @@ class _F_AddLinkState extends State<F_AddLink> {
           postTitle: _postTitle,
           postDescription: _postDescription,
           postUrl: widget.url,
-          postType: 0, //0 for image type, 1 for link type
+          postType: 1, //0 for image type, 1 for link type
           postViewCount: 0,
           postVisitedCount: 0,
           reactedCorrect: [],
