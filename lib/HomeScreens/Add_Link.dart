@@ -21,20 +21,26 @@ import 'package:know_it_master/firebase/database.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
 class AddLink extends StatelessWidget {
-  AddLink({@required this.database,});
+  AddLink({@required this.database, @required this.url, @required this.phoneNumber, @required this.totalLinkCount});
   Database database;
+  String url;
+  String phoneNumber;
+  int totalLinkCount;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: F_AddLink(database: database),
+      child: F_AddLink(database: database, url: url,phoneNumber: phoneNumber, totalLinkCount:totalLinkCount),
     );
   }
 }
 
 class F_AddLink extends StatefulWidget {
-  F_AddLink({@required this.database});
+  F_AddLink({@required this.database, @required this.url, @required this.phoneNumber, @required this.totalLinkCount});
   Database database;
+  String url;
+  String phoneNumber;
+  int totalLinkCount;
 
   @override
   _F_AddLinkState createState() => _F_AddLinkState();
@@ -42,55 +48,10 @@ class F_AddLink extends StatefulWidget {
 
 class _F_AddLinkState extends State<F_AddLink> {
 
-  File _postPic;
   String _postTitle;
   String _postDescription;
 
   final _formKey = GlobalKey<FormState>();
-
-  final FirebaseStorage _storage =
-  FirebaseStorage(storageBucket: FIREBASE_STORAGE_URL);
-  StorageUploadTask _uploadTask;
-  String _profilePicPathURL;
-
-  StreamSubscription _intentDataStreamSubscription;
-  List<SharedMediaFile> _sharedFiles;
-  String _sharedText;
-
-  bool _loading;
-  double _progressValue;
-
-  @override
-  void initState() {
-    super.initState();
-    _loading = false;
-    _progressValue = 0.0;
-
-    // For sharing images coming from outside the app while the app is in the memory
-    _intentDataStreamSubscription =
-        ReceiveSharingIntent.getMediaStream().listen((List<SharedMediaFile> value) {
-          setState(() {
-            print("Shared:" + (_sharedFiles?.map((f)=> f.path)?.join(",") ?? ""));
-            _sharedFiles = value;
-          });
-        }, onError: (err) {
-          print("getIntentDataStream error: $err");
-        });
-
-    // For sharing images coming from outside the app while the app is closed
-    ReceiveSharingIntent.getInitialMedia().then((List<SharedMediaFile> value) {
-      setState(() {
-        _sharedFiles = value;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _intentDataStreamSubscription.cancel();
-    super.dispose();
-  }
-
 
 
   bool _validateAndSaveForm(){
@@ -102,39 +63,20 @@ class _F_AddLinkState extends State<F_AddLink> {
     return false;
   }
 
-  void _imageUpload() async {
-    _loading = !_loading;
-    if (_postPic != null) {
-      String _postPicPath = 'post_images/${DateTime.now()}.png';
-      setState(() {
-        _uploadTask =
-            _storage.ref().child(_postPicPath).putFile(_postPic);
-      });
-      _profilePicPathURL = await (await _storage
-          .ref()
-          .child(_postPicPath)
-          .putFile(_postPic)
-          .onComplete)
-          .ref
-          .getDownloadURL();
-
-      _submit(_profilePicPathURL);
-    }
-  }
-
-  Future<void> _submit(String imagePath) async{
+  Future<void> _submit() async{
     if(_validateAndSaveForm()) {
+      var date = Timestamp.fromDate(DateTime.now());
       try{
 
         final _postEntry = PostDetails(
           postIsDeleted: false,
-          postAddedDate: Timestamp.fromDate(DateTime.now()),
+          postAddedDate: date,
           postAddedByUid: USER_ID,
-          postAddedByPhoneNumber: '',
-          postImagePath: imagePath,
+          postAddedByPhoneNumber: widget.phoneNumber,
+          postImagePath: 'not updated',
           postTitle: _postTitle,
           postDescription: _postDescription,
-          postUrl: 'not updated',
+          postUrl: widget.url,
           postType: 0, //0 for image type, 1 for link type
           postViewCount: 0,
           postVisitedCount: 0,
@@ -145,11 +87,11 @@ class _F_AddLinkState extends State<F_AddLink> {
           empty: null,
         );
 
-        await widget.database.setPostEntry(_postEntry, DateTime.now().toString());
+        await widget.database.setPostEntry(_postEntry, date.toString());
 
         final _userDetails = UserDetails(
-            totalMedia: 1);
-        await widget.database.updateUserDetails(_userDetails, DateTime.now().toString());
+            totalMedia: widget.totalLinkCount + 1);
+        await widget.database.updateUserDetails(_userDetails, USER_ID);
 
         Navigator.of(context).pop();
       }on PlatformException catch (e){
@@ -160,8 +102,6 @@ class _F_AddLinkState extends State<F_AddLink> {
       }
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -226,28 +166,7 @@ class _F_AddLinkState extends State<F_AddLink> {
   }
 
   Widget _buildPageContent(BuildContext context) {
-    if (_uploadTask != null) {
-      return StreamBuilder<StorageTaskEvent>(
-          stream: _uploadTask.events == null ? null : _uploadTask.events,
-          builder: (context, snapshot) {
-            var event = snapshot?.data?.snapshot;
 
-            _progressValue = event != null
-                ? event.bytesTransferred / event.totalByteCount
-                : 0;
-
-            return
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  LinearProgressIndicator(
-                    value: _progressValue,
-                  ),
-                  Text('${(_progressValue * 100).round()}%'),
-                ],
-              );
-          });
-    } else {
       return Padding(
         padding: const EdgeInsets.all(20.0),
         child: ToDoButton(
@@ -255,33 +174,9 @@ class _F_AddLinkState extends State<F_AddLink> {
           text: 'Post',
           textColor: subBackgroundColor,
           backgroundColor: backgroundColor,
-          onPressed: _imageUpload,
+          onPressed: _submit,
         ),
       );
-//    AnimatedButton(
-//        onTap: _imageUpload,
-//        animationDuration: const Duration(milliseconds: 1000),
-//        initialText: "Post",
-//        finalText: "Feed Added",
-//        iconData: Icons.check,
-//        iconSize: 30.0,
-//        buttonStyle: ButtonStyle(
-//          primaryColor: backgroundColor,
-//          secondaryColor: Colors.white,
-//          elevation: 10.0,
-//          initialTextStyle: TextStyle(
-//            fontSize: 20.0,
-//            color: subBackgroundColor,
-//          ),
-//          finalTextStyle: TextStyle(
-//            fontSize: 20.0,
-//            color: backgroundColor,
-//          ),
-//          borderRadius: 10.0,
-//        ),
-//
-//      );
-    }
   }
 
 
@@ -292,7 +187,7 @@ class _F_AddLinkState extends State<F_AddLink> {
       SizedBox(height: 10,),
 
       Link(
-        child: Text('https://pub.dev/packages/link',style: TextStyle(color: subBackgroundColor,decoration: TextDecoration.underline,),),
+        child: Text(widget.url != null ? widget.url : 'nothing to share',style: TextStyle(color: subBackgroundColor,decoration: TextDecoration.underline,),),
         url: 'https://flutter.dev',
         onError: _showErrorSnackBar,
       ),
@@ -351,13 +246,5 @@ class _F_AddLinkState extends State<F_AddLink> {
         content: Text('Oops... the URL couldn\'t be opened!'),
       ),
     );
-  }
-
-  Future<void> _captureImage() async {
-    File profileImage = await ImagePicker.pickImage(source: IMAGE_SOURCE);
-    setState(() {
-      _postPic = profileImage;
-      print(_postPic);
-    });
   }
 }

@@ -68,6 +68,7 @@ class _F_HomePageState extends State<F_HomePage> {
         print("Shared: $_sharedText");
       });
     });
+
   }
 
   @override
@@ -93,13 +94,16 @@ class _F_HomePageState extends State<F_HomePage> {
     );
   }
 
+  var database;
   Widget _buildContent(BuildContext context) {
-    final database = Provider.of<Database>( context, listen: false );
+    database = Provider.of<Database>( context, listen: false );
 
     return StreamBuilder<UserDetails>(
         stream: database.readUser(USER_ID),
         builder: (context, snapshot) {
           final user = snapshot.data;
+          _sharedText != null ? GoToPage(context, AddLink(database: database,url: _sharedText, phoneNumber: user.phoneNumber != null ? user.phoneNumber:'not updated',totalLinkCount: user.totalLinks,)) : null;
+
           PopupMenu.context = context;
           return Scaffold(
             appBar: PreferredSize(
@@ -132,35 +136,35 @@ class _F_HomePageState extends State<F_HomePage> {
                         ),
                       ],
                     ),
-
-                    GestureDetector(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Padding(
-                              padding:
-                              const EdgeInsets.only( bottom: 15, ),
-                              child: CircleAvatar(
-                                child: Text(
-                                  "Lin",
-                                  style: subTitleStyleLight,
-                                ),
-                                radius: 20.0,
-                                backgroundColor:
-                                subBackgroundColor.withOpacity( .3 ),
-                              ),
-                            )
-                          ],
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AddLink(database: database,),
-                            ),
-                          );
-                        } ),
+//
+//                    GestureDetector(
+//                        child: Column(
+//                          mainAxisAlignment: MainAxisAlignment.end,
+//                          crossAxisAlignment: CrossAxisAlignment.end,
+//                          children: <Widget>[
+//                            Padding(
+//                              padding:
+//                              const EdgeInsets.only( bottom: 15, ),
+//                              child: CircleAvatar(
+//                                child: Text(
+//                                  "Lin",
+//                                  style: subTitleStyleLight,
+//                                ),
+//                                radius: 20.0,
+//                                backgroundColor:
+//                                subBackgroundColor.withOpacity( .3 ),
+//                              ),
+//                            )
+//                          ],
+//                        ),
+//                        onTap: () {
+//                          Navigator.push(
+//                            context,
+//                            MaterialPageRoute(
+//                              builder: (context) => AddLink(database: database,),
+//                            ),
+//                          );
+//                        } ),
                     GestureDetector(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,

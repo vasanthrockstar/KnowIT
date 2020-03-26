@@ -103,11 +103,13 @@ class _F_AddFeedState extends State<F_AddFeed> {
 
   Future<void> _submit(String imagePath) async{
     if(_validateAndSaveForm()) {
+      var uploadTime = Timestamp.fromDate(DateTime.now());
+
       try{
 
         final _postEntry = PostDetails(
           postIsDeleted: false,
-          postAddedDate: Timestamp.fromDate(DateTime.now()),
+          postAddedDate: uploadTime,
           postAddedByUid: USER_ID,
           postAddedByPhoneNumber: widget.phoneNumber.substring(3),
           postImagePath: imagePath,
@@ -124,7 +126,7 @@ class _F_AddFeedState extends State<F_AddFeed> {
           empty: null,
         );
 
-        await widget.database.setPostEntry(_postEntry, DateTime.now().toString());
+        await widget.database.setPostEntry(_postEntry, uploadTime.toString());
         final _userDetails = UserDetails(
             totalMedia: widget.totalMediaCount + 1);
         await widget.database.updateUserDetails(_userDetails, USER_ID);
