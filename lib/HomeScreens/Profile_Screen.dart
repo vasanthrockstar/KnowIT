@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:know_it_master/Database_models/UserDetails.dart';
+import 'package:know_it_master/HomeScreens/Settings.dart';
 import 'package:know_it_master/HomeScreens/ShoeMediaPage.dart';
 import 'package:know_it_master/common_variables/app_colors.dart';
 import 'package:know_it_master/common_variables/app_fonts.dart';
@@ -134,7 +135,7 @@ class _F_ProfilePageState extends State<F_ProfilePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ShowMediaPage() ),
+                                  builder: (context) => SettingsPage() ),
                             );
                           }
                       ),
