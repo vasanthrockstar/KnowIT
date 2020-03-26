@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		10731A31242BBDD000E079DF /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10731A30242BBDD000E079DF /* ShareViewController.swift */; };
-		10731A34242BBDD000E079DF /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10731A32242BBDD000E079DF /* MainInterface.storyboard */; };
-		10731A38242BBDD000E079DF /* KnowIT.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 10731A2E242BBDD000E079DF /* KnowIT.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		10B5FA3C242A40E600FB8F11 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 10B5FA3B242A40E600FB8F11 /* GoogleService-Info.plist */; };
+		10DCFF1E242D30CA00E51660 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DCFF1D242D30CA00E51660 /* ShareViewController.swift */; };
+		10DCFF21242D30CA00E51660 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10DCFF1F242D30CA00E51660 /* MainInterface.storyboard */; };
+		10DCFF25242D30CA00E51660 /* Share Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 10DCFF1B242D30CA00E51660 /* Share Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		3B80C3941E831B6300D905FE /* App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B80C3931E831B6300D905FE /* App.framework */; };
@@ -25,12 +25,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		10731A36242BBDD000E079DF /* PBXContainerItemProxy */ = {
+		10DCFF23242D30CA00E51660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 10731A2D242BBDD000E079DF;
-			remoteInfo = KnowIT;
+			remoteGlobalIDString = 10DCFF1A242D30CA00E51660;
+			remoteInfo = "Share Extension";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -41,7 +41,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				10731A38242BBDD000E079DF /* KnowIT.appex in Embed App Extensions */,
+				10DCFF25242D30CA00E51660 /* Share Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -62,12 +62,12 @@
 
 /* Begin PBXFileReference section */
 		10731A29242BBDAC00E079DF /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
-		10731A2E242BBDD000E079DF /* KnowIT.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = KnowIT.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		10731A30242BBDD000E079DF /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
-		10731A33242BBDD000E079DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		10731A35242BBDD000E079DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		10731A3D242BCE9D00E079DF /* KnowIT.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KnowIT.entitlements; sourceTree = "<group>"; };
 		10B5FA3B242A40E600FB8F11 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		10DCFF1B242D30CA00E51660 /* Share Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Share Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		10DCFF1D242D30CA00E51660 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		10DCFF20242D30CA00E51660 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		10DCFF22242D30CA00E51660 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		10DCFF2A242D3AE700E51660 /* Share Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Share Extension.entitlements"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
@@ -90,7 +90,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		10731A2B242BBDD000E079DF /* Frameworks */ = {
+		10DCFF18242D30CA00E51660 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -110,15 +110,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		10731A2F242BBDD000E079DF /* KnowIT */ = {
+		10DCFF1C242D30CA00E51660 /* Share Extension */ = {
 			isa = PBXGroup;
 			children = (
-				10731A3D242BCE9D00E079DF /* KnowIT.entitlements */,
-				10731A30242BBDD000E079DF /* ShareViewController.swift */,
-				10731A32242BBDD000E079DF /* MainInterface.storyboard */,
-				10731A35242BBDD000E079DF /* Info.plist */,
+				10DCFF2A242D3AE700E51660 /* Share Extension.entitlements */,
+				10DCFF1D242D30CA00E51660 /* ShareViewController.swift */,
+				10DCFF1F242D30CA00E51660 /* MainInterface.storyboard */,
+				10DCFF22242D30CA00E51660 /* Info.plist */,
 			);
-			path = KnowIT;
+			path = "Share Extension";
 			sourceTree = "<group>";
 		};
 		3FD26447EACA39C070608C78 /* Frameworks */ = {
@@ -147,7 +147,7 @@
 			children = (
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
-				10731A2F242BBDD000E079DF /* KnowIT */,
+				10DCFF1C242D30CA00E51660 /* Share Extension */,
 				97C146EF1CF9000F007C117D /* Products */,
 				F39CF61FACD1F7DDC9EC348D /* Pods */,
 				3FD26447EACA39C070608C78 /* Frameworks */,
@@ -158,7 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				97C146EE1CF9000F007C117D /* Runner.app */,
-				10731A2E242BBDD000E079DF /* KnowIT.appex */,
+				10DCFF1B242D30CA00E51660 /* Share Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -201,21 +201,21 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		10731A2D242BBDD000E079DF /* KnowIT */ = {
+		10DCFF1A242D30CA00E51660 /* Share Extension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 10731A39242BBDD000E079DF /* Build configuration list for PBXNativeTarget "KnowIT" */;
+			buildConfigurationList = 10DCFF26242D30CA00E51660 /* Build configuration list for PBXNativeTarget "Share Extension" */;
 			buildPhases = (
-				10731A2A242BBDD000E079DF /* Sources */,
-				10731A2B242BBDD000E079DF /* Frameworks */,
-				10731A2C242BBDD000E079DF /* Resources */,
+				10DCFF17242D30CA00E51660 /* Sources */,
+				10DCFF18242D30CA00E51660 /* Frameworks */,
+				10DCFF19242D30CA00E51660 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = KnowIT;
-			productName = KnowIT;
-			productReference = 10731A2E242BBDD000E079DF /* KnowIT.appex */;
+			name = "Share Extension";
+			productName = "Share Extension";
+			productReference = 10DCFF1B242D30CA00E51660 /* Share Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		97C146ED1CF9000F007C117D /* Runner */ = {
@@ -235,7 +235,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				10731A37242BBDD000E079DF /* PBXTargetDependency */,
+				10DCFF24242D30CA00E51660 /* PBXTargetDependency */,
 			);
 			name = Runner;
 			productName = Runner;
@@ -252,7 +252,7 @@
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "The Chromium Authors";
 				TargetAttributes = {
-					10731A2D242BBDD000E079DF = {
+					10DCFF1A242D30CA00E51660 = {
 						CreatedOnToolsVersion = 11.3.1;
 						DevelopmentTeam = 7QW95HTQYM;
 						ProvisioningStyle = Automatic;
@@ -278,17 +278,17 @@
 			projectRoot = "";
 			targets = (
 				97C146ED1CF9000F007C117D /* Runner */,
-				10731A2D242BBDD000E079DF /* KnowIT */,
+				10DCFF1A242D30CA00E51660 /* Share Extension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		10731A2C242BBDD000E079DF /* Resources */ = {
+		10DCFF19242D30CA00E51660 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10731A34242BBDD000E079DF /* MainInterface.storyboard in Resources */,
+				10DCFF21242D30CA00E51660 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,11 +375,11 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		10731A2A242BBDD000E079DF /* Sources */ = {
+		10DCFF17242D30CA00E51660 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10731A31242BBDD000E079DF /* ShareViewController.swift in Sources */,
+				10DCFF1E242D30CA00E51660 /* ShareViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,18 +395,18 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		10731A37242BBDD000E079DF /* PBXTargetDependency */ = {
+		10DCFF24242D30CA00E51660 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 10731A2D242BBDD000E079DF /* KnowIT */;
-			targetProxy = 10731A36242BBDD000E079DF /* PBXContainerItemProxy */;
+			target = 10DCFF1A242D30CA00E51660 /* Share Extension */;
+			targetProxy = 10DCFF23242D30CA00E51660 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		10731A32242BBDD000E079DF /* MainInterface.storyboard */ = {
+		10DCFF1F242D30CA00E51660 /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				10731A33242BBDD000E079DF /* Base */,
+				10DCFF20242D30CA00E51660 /* Base */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
@@ -430,25 +430,25 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		10731A3A242BBDD000E079DF /* Debug */ = {
+		10DCFF27242D30CA00E51660 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = KnowIT/KnowIT.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Share Extension/Share Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7QW95HTQYM;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = KnowIT/Info.plist;
+				INFOPLIST_FILE = "Share Extension/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.knowit.knowItMaster.KnowIT;
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.knowit.knowItMaster.Share-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -458,24 +458,24 @@
 			};
 			name = Debug;
 		};
-		10731A3B242BBDD000E079DF /* Release */ = {
+		10DCFF28242D30CA00E51660 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = KnowIT/KnowIT.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Share Extension/Share Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7QW95HTQYM;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = KnowIT/Info.plist;
+				INFOPLIST_FILE = "Share Extension/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.knowit.knowItMaster.KnowIT;
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.knowit.knowItMaster.Share-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -483,25 +483,25 @@
 			};
 			name = Release;
 		};
-		10731A3C242BBDD000E079DF /* Profile */ = {
+		10DCFF29242D30CA00E51660 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = KnowIT/KnowIT.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Share Extension/Share Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7QW95HTQYM;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = KnowIT/Info.plist;
+				INFOPLIST_FILE = "Share Extension/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.knowit.knowItMaster.KnowIT;
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.knowit.knowItMaster.Share-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -765,12 +765,12 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		10731A39242BBDD000E079DF /* Build configuration list for PBXNativeTarget "KnowIT" */ = {
+		10DCFF26242D30CA00E51660 /* Build configuration list for PBXNativeTarget "Share Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				10731A3A242BBDD000E079DF /* Debug */,
-				10731A3B242BBDD000E079DF /* Release */,
-				10731A3C242BBDD000E079DF /* Profile */,
+				10DCFF27242D30CA00E51660 /* Debug */,
+				10DCFF28242D30CA00E51660 /* Release */,
+				10DCFF29242D30CA00E51660 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
